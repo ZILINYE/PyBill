@@ -2,11 +2,13 @@ from pymongo import MongoClient
 
 
 class Mongo:
-    def __init__(self, databasename, collectionname, savelist=None):
+    def __init__(self, databasename, collectionname, savelist=None,select_period=None):
         mongo_client = MongoClient("192.168.2.60", 27017)
         db = mongo_client[databasename]
         self.collection = db[collectionname]
         self.savelist = savelist
+        self.select_period = select_period
+
 
     def selectionMongo(self):
         formatted = list(map(lambda x: {"name": x}, self.savelist))
@@ -24,6 +26,41 @@ class Mongo:
             uilist.append(item["name"])
         return uilist
 
-    # def recordMongo(self):
+    def recordMongo(self):
+        mongolist = []
+        key_list = ['Name','Cate','Date','Spend','Description']
+        for items in self.savelist:
+            dic = {}
+            for item in items:
+                title_index = items.index(item)
+                title = key_list[title_index]
+                dic.update({title:item})
+            dic.update({'Period':self.select_period })
+            mongolist.append(dic)
 
-    # def recordUi(self):
+        try:
+            if mongolist is not None:
+                x = self.collection.find_one({'Period':self.select_period })
+                if x is not None:
+                    
+                    self.collection.delete_many({'Period':self.select_period })
+                    self.collection.insert_many(mongolist)
+                else:
+                    self.collection.insert_many(mongolist)
+
+        except EOFError as e:
+            print(e)
+                
+
+
+
+    def recordUi(self):
+        mongodata = self.collection.find({'Period':self.select_period })
+        level2 = []
+        for items in mongodata:
+            level1 = []
+            for i in range(1,len(items)-1):
+                level1.append(list(items.values())[i])
+            
+            level2.append(level1)
+        return level2

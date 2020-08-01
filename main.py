@@ -79,6 +79,8 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super(MyMainForm, self).__init__(parent)
         self.setupUi(self)
+        self.person_dialog = 'Person'
+        self.cate_dialog = 'Category'
         # Init Title
         current_month = strftime("%B")
         current_year = strftime("%Y")
@@ -100,6 +102,7 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
         self.month_index = self.currentm_index
         self.selectedYear = int(current_year)
         self.current_period = self.SetTitle()
+        self.select_period = self.current_period
         # Init Display
         self.GetRow()
 
@@ -121,7 +124,8 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
         selectedYear = str(self.selectedYear)
         self.Month.setText(selectedMonth + "/" + selectedYear)
         self.Month.setAlignment(QtCore.Qt.AlignCenter)
-        return selectedMonth + "/" + selectedYear
+        self.select_period = selectedMonth + "/" + selectedYear
+        return self.select_period 
 
     def monthChangeNext(self):
         self.month_index += 1
@@ -138,11 +142,12 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
         self.SetTitle()
 
     def person_window(self):
-        self.dialog = EditDialog("Person")
+        self.dialog = EditDialog(self.person_dialog)
         self.dialog.show()
+        
 
     def cate_window(self):
-        self.dialog = EditDialog("Category")
+        self.dialog = EditDialog(self.cate_dialog)
         self.dialog.show()
 
     # Display Data into list view
@@ -178,23 +183,13 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
 
     # Retrive Data from DB
     def GetRow(self):
-        person = ("Tobin", "Iris")
-        cate = ("Shopping", "Eating", "Other")
-        data = [
-            ["Tobin", "Shopping", "2020/05/11", "148", "costco"],
-            ["Tobin", "Shopping", "2020/05/12", "148", "costco"],
-            ["Tobin", "Shopping", "2020/05/13", "148", "costco"],
-            ["Tobin", "Eating", "2020/05/14", "148", "costco"],
-            ["Tobin", "Shopping", "2020/05/15", "148", "costco"],
-            ["Tobin", "Shopping", "2020/05/16", "148", "costco"],
-            ["Iris", "Shopping", "2020/05/17", "148", "costco"],
-            ["Tobin", "Shopping", "2020/05/18", "148", "costco"],
-            ["Tobin", "Shopping", "2020/05/19", "148", "costco"],
-            ["Iris", "Shopping", "2020/05/20", "148", "costco"],
-            ["Tobin", "Shopping", "2020/05/21", "148", "costco"],
-            ["Tobin", "Shopping", "2020/05/22", "148", "costco"],
-        ]
-        self.ListRow(data, person, cate)
+        person = Mongo("pybill", self.person_dialog)
+        cate = Mongo("pybill", self.cate_dialog)
+        record = Mongo("pybill", 'BullRecord',savelist=None,select_period = self.select_period)
+        record1 = record.recordUi()
+        person1 = person.selectionUi()
+        cate1 = cate.selectionUi()
+        self.ListRow(record1, person1, cate1)
 
     # Add New Row
     def AddRow(self):
@@ -206,7 +201,7 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
 
         for i in range(5):
             # self.tableWidget.setItem(newrow, i, QTableWidgetItem(""))
-            self.tableWidget.setCellWidget(newrow, i, combobox)
+            self.tableWidget.setCellWidget(newrow-1, i, combobox)
 
     def DelRow(self):
         selected = self.tableWidget.currentRow()
@@ -225,6 +220,10 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
                     item = self.tableWidget.item(row, i).text()
                 row_item.append(item)
             new_list.append(row_item)
+
+        record = Mongo("pybill", 'BullRecord',new_list,self.select_period)
+        record1 = record.recordMongo()
+
 
     # def DiscardChange(self):
 
