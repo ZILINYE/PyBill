@@ -7,8 +7,12 @@ from PyQt5.QtWidgets import (
     QComboBox,
     QLineEdit,
     QInputDialog,
+    QDateEdit,
+    QDateTimeEdit,
+
 )
 
+from PyQt5.QtCore import QDateTime
 from PyQt5 import QtCore
 from datetime import datetime
 from mongo import Mongo
@@ -125,6 +129,7 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
         self.Month.setText(selectedMonth + "/" + selectedYear)
         self.Month.setAlignment(QtCore.Qt.AlignCenter)
         self.select_period = selectedMonth + "/" + selectedYear
+        self.GetRow()
         return self.select_period 
 
     def monthChangeNext(self):
@@ -144,11 +149,14 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
     def person_window(self):
         self.dialog = EditDialog(self.person_dialog)
         self.dialog.show()
-        
+
 
     def cate_window(self):
         self.dialog = EditDialog(self.cate_dialog)
         self.dialog.show()
+   
+        
+
 
     # Display Data into list view
     def ListRow(self, data, person, cate):
@@ -158,7 +166,7 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
 
         for row_number, row_data in enumerate(data):
             for column_number, data in enumerate(row_data):
-                if column_number < 2:
+                if column_number < 3:
                     if column_number == 0:
                         personbox = QComboBox()
                         personbox.addItems(person)
@@ -166,15 +174,21 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
                         self.tableWidget.setCellWidget(
                             row_number, column_number, personbox
                         )
-                    else:
+                    elif column_number == 1 :
 
                         catebox = QComboBox()
                         catebox.addItems(cate)
                         catebox.setCurrentText(str(data))
-                        personbox.setObjectName("cate" + str(row_number))
                         self.tableWidget.setCellWidget(
                             row_number, column_number, catebox
                         )
+                    else:
+                        datebox = QDateEdit()
+                        date = QDateTime()
+                        self.tableWidget.setCellWidget(
+                            row_number, column_number, datebox
+                        )
+
 
                 else:
                     self.tableWidget.setItem(

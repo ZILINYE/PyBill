@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'View/PyBill.ui'
+# Form implementation generated from reading ui file 'View\PyBill.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.0
 #
@@ -62,16 +62,14 @@ class Ui_MainWindow(object):
         self.Month.setObjectName("Month")
         self.PreviousMonth = QtWidgets.QPushButton(self.centralwidget)
         self.PreviousMonth.setGeometry(QtCore.QRect(182, 10, 61, 32))
-        self.PreviousMonth.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("View/../../../Downloads/back.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("View\\../../../Downloads/back.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.PreviousMonth.setIcon(icon)
         self.PreviousMonth.setObjectName("PreviousMonth")
         self.NextMonth = QtWidgets.QPushButton(self.centralwidget)
         self.NextMonth.setGeometry(QtCore.QRect(530, 10, 61, 31))
-        self.NextMonth.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("View/../../../Downloads/forward.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("View\\../../../Downloads/forward.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.NextMonth.setIcon(icon1)
         self.NextMonth.setObjectName("NextMonth")
         self.addRow = QtWidgets.QPushButton(self.centralwidget)
@@ -86,6 +84,9 @@ class Ui_MainWindow(object):
         self.cancel_change = QtWidgets.QPushButton(self.centralwidget)
         self.cancel_change.setGeometry(QtCore.QRect(490, 420, 113, 32))
         self.cancel_change.setObjectName("cancel_change")
+        self.dateEdit = QtWidgets.QDateEdit(self.centralwidget)
+        self.dateEdit.setGeometry(QtCore.QRect(240, 430, 110, 22))
+        self.dateEdit.setObjectName("dateEdit")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -111,6 +112,8 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Category"))
         item = self.tableWidget.horizontalHeaderItem(4)
         item.setText(_translate("MainWindow", "Description"))
+        self.PreviousMonth.setText(_translate("MainWindow", "Previous"))
+        self.NextMonth.setText(_translate("MainWindow", "Next"))
         self.addRow.setText(_translate("MainWindow", "+"))
         self.delRow.setText(_translate("MainWindow", "-"))
         self.save_change.setText(_translate("MainWindow", "Save"))
