@@ -1,5 +1,6 @@
 import sys
 from time import strftime
+import calendar
 from PyQt5.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -11,8 +12,8 @@ from PyQt5.QtWidgets import (
     QDateTimeEdit,
 
 )
-
-from PyQt5.QtCore import QDateTime
+ 
+from PyQt5.QtCore import QDateTime,QDate
 from PyQt5 import QtCore
 from datetime import datetime
 from mongo import Mongo
@@ -85,7 +86,7 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.person_dialog = 'Person'
         self.cate_dialog = 'Category'
-        # Init Title
+        # Set Up Title and DateBox Default Value
         current_month = strftime("%B")
         current_year = strftime("%Y")
         self.month = [
@@ -102,20 +103,25 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
             "November",
             "December",
         ]
+        self.min_date = None
+        self.max_date = None
         self.currentm_index = self.month.index(current_month)
         self.month_index = self.currentm_index
         self.selectedYear = int(current_year)
         self.current_period = self.SetTitle()
         self.select_period = self.current_period
+
+        # Get Default Date Value and Get Last Day of Selected Month
+        self.Cal_month()
         # Init Display
         self.GetRow()
 
+        # Button Function
         self.NextMonth.clicked.connect(self.monthChangeNext)
         self.PreviousMonth.clicked.connect(self.monthChangePrevious)
         self.addRow.clicked.connect(self.AddRow)
         self.delRow.clicked.connect(self.DelRow)
         self.save_change.clicked.connect(self.SaveChange)
-
         self.edit_person.clicked.connect(self.person_window)
         self.edit_cate.clicked.connect(self.cate_window)
 
@@ -129,7 +135,9 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
         self.Month.setText(selectedMonth + "/" + selectedYear)
         self.Month.setAlignment(QtCore.Qt.AlignCenter)
         self.select_period = selectedMonth + "/" + selectedYear
+        self.Cal_month()
         self.GetRow()
+        
         return self.select_period 
 
     def monthChangeNext(self):
@@ -155,7 +163,14 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
         self.dialog = EditDialog(self.cate_dialog)
         self.dialog.show()
    
-        
+    def Cal_month(self):
+        year = self.selectedYear
+        mon = self.month_index + 1
+        max_day = calendar.monthrange(year,mon)[1]
+        self.min_date = QDate()
+        self.min_date.setDate(year,mon,1)
+        self.max_date = QDate()
+        self.max_date.setDate(year,mon,max_day)
 
 
     # Display Data into list view
@@ -184,7 +199,17 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
                         )
                     else:
                         datebox = QDateEdit()
-                        date = QDateTime()
+                        date = QDate()
+                        yy = int(data.split('/')[0])
+                        mm = int(data.split('/')[1])
+                        dd = int(data.split('/')[2])
+                        date.setDate(yy,mm,dd)
+                        datebox.setDate(date)
+                        
+                        datebox.setMinimumDate(self.min_date)
+                        datebox.setMaximumDate(self.max_date)
+                        datebox.setCalendarPopup(True)
+
                         self.tableWidget.setCellWidget(
                             row_number, column_number, datebox
                         )
@@ -199,7 +224,7 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
     def GetRow(self):
         person = Mongo("pybill", self.person_dialog)
         cate = Mongo("pybill", self.cate_dialog)
-        record = Mongo("pybill", 'BullRecord',savelist=None,select_period = self.select_period)
+        record = Mongo("pybill", 'BillRecord',savelist=None,select_period = self.select_period)
         record1 = record.recordUi()
         person1 = person.selectionUi()
         cate1 = cate.selectionUi()
@@ -207,15 +232,31 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
 
     # Add New Row
     def AddRow(self):
+        # Set up New Row with Combobox and DateBox
+        person = Mongo("pybill", self.person_dialog)
+        cate = Mongo("pybill", self.cate_dialog)
+        cate1 = cate.selectionUi()
+        person1 = person.selectionUi()
         newrow = self.tableWidget.rowCount() + 1
         self.tableWidget.setRowCount(newrow)
-        person = ("Tobin", "Iris")
-        combobox = QComboBox()
-        combobox.addItems(person)
-
+        combobox1 = QComboBox()
+        combobox1.addItems(person1)
+        combobox2 = QComboBox()
+        combobox2.addItems(cate1)
+        datebox = QDateEdit()
+        datebox.setMinimumDate(self.min_date)
+        datebox.setMaximumDate(self.max_date)
+        datebox.setCalendarPopup(True)
+        # Loop with ['Name','Cate','Date','Spend','Description']
         for i in range(5):
-            # self.tableWidget.setItem(newrow, i, QTableWidgetItem(""))
-            self.tableWidget.setCellWidget(newrow-1, i, combobox)
+            if i == 0:
+                self.tableWidget.setCellWidget(newrow-1, i, combobox1)
+            elif i ==1:
+                self.tableWidget.setCellWidget(newrow-1, i, combobox2)
+            elif i == 2:
+                self.tableWidget.setCellWidget(newrow-1, i, datebox)
+            else:
+                self.tableWidget.setItem(newrow, i, QTableWidgetItem(""))
 
     def DelRow(self):
         selected = self.tableWidget.currentRow()
@@ -230,12 +271,19 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
                 if i < 2:
                     item = self.tableWidget.cellWidget(row, i)
                     item = item.currentText()
+                elif i == 2:
+                    item = self.tableWidget.cellWidget(row, i)
+                    item = item.text()
+                elif i == 3:
+                    item = self.tableWidget.item(row, i).text()
+
                 else:
+                    item = ''
                     item = self.tableWidget.item(row, i).text()
                 row_item.append(item)
             new_list.append(row_item)
 
-        record = Mongo("pybill", 'BullRecord',new_list,self.select_period)
+        record = Mongo("pybill", 'BillRecord',new_list,self.select_period)
         record1 = record.recordMongo()
 
 
