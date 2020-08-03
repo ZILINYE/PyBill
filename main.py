@@ -276,10 +276,12 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
                     item = item.text()
                 elif i == 3:
                     item = self.tableWidget.item(row, i).text()
-
-                else:
-                    item = ''
-                    item = self.tableWidget.item(row, i).text()
+                else:                    
+                    item = self.tableWidget.item(row, i)
+                    if item is not None:
+                        item = item.text()
+                    else:
+                        item = ''
                 row_item.append(item)
             new_list.append(row_item)
 

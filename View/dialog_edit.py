@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'View/dialog_edit.ui'
+# Form implementation generated from reading ui file 'View\dialog_edit.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.0
 #
@@ -18,9 +18,17 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle("")
         self.add = QtWidgets.QPushButton(Dialog)
         self.add.setGeometry(QtCore.QRect(300, 20, 41, 31))
+        self.add.setText("")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("View\\../Icon/Add.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.add.setIcon(icon)
         self.add.setObjectName("add")
         self.remove = QtWidgets.QPushButton(Dialog)
         self.remove.setGeometry(QtCore.QRect(300, 60, 41, 31))
+        self.remove.setText("")
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("View\\../Icon/Remove.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.remove.setIcon(icon1)
         self.remove.setObjectName("remove")
         self.save = QtWidgets.QPushButton(Dialog)
         self.save.setGeometry(QtCore.QRect(280, 240, 113, 32))
@@ -37,7 +45,15 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        self.add.setText(_translate("Dialog", "+"))
-        self.remove.setText(_translate("Dialog", "-"))
         self.save.setText(_translate("Dialog", "Save"))
         self.cancelsave.setText(_translate("Dialog", "Cancel"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    Dialog = QtWidgets.QDialog()
+    ui = Ui_Dialog()
+    ui.setupUi(Dialog)
+    Dialog.show()
+    sys.exit(app.exec_())

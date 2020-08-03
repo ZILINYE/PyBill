@@ -23,7 +23,11 @@
     </rect>
    </property>
    <property name="text">
-    <string>+</string>
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../Icon/Add.png</normaloff>../Icon/Add.png</iconset>
    </property>
   </widget>
   <widget class="QPushButton" name="remove">
@@ -36,7 +40,11 @@
     </rect>
    </property>
    <property name="text">
-    <string>-</string>
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../Icon/Remove.png</normaloff>../Icon/Remove.png</iconset>
    </property>
   </widget>
   <widget class="QPushButton" name="save">
