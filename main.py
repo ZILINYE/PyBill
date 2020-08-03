@@ -12,14 +12,12 @@ from PyQt5.QtWidgets import (
     QDateTimeEdit,
 
 )
- 
 from PyQt5.QtCore import QDateTime,QDate
 from PyQt5 import QtCore
 from datetime import datetime
 from mongo import Mongo
 from View.PyBill import Ui_MainWindow
 from View.dialog_edit import Ui_Dialog
-
 
 class EditDialog(QMainWindow, Ui_Dialog):
     def __init__(self, dialog):
