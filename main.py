@@ -13,11 +13,13 @@ from PyQt5.QtWidgets import (
 
 )
 from PyQt5.QtCore import QDateTime,QDate
+
 from PyQt5 import QtCore
 from datetime import datetime
 from mongo import Mongo
 from View.PyBill import Ui_MainWindow
 from View.dialog_edit import Ui_Dialog
+from View.addowe import Add_owe
 
 class EditDialog(QMainWindow, Ui_Dialog):
     def __init__(self, dialog):
@@ -77,6 +79,127 @@ class EditDialog(QMainWindow, Ui_Dialog):
         data = connection.selectionMongo()
         self.close()
 
+class EditOweDialog(QMainWindow,Add_owe):
+    def __init__(self,person_list,year,month,month_index,max_date,min_date):
+        super(EditOweDialog, self).__init__()
+        self.setupUi(self)
+        self.setWindowTitle("Owe Record")
+
+        self.person_list = person_list
+        self.year = year
+        self.month = month
+        self.max_date = max_date
+        self.min_date = min_date
+        self.month_Number = month_index+1
+        self.select_period = self.month + '/'+str(self.year)
+
+        self.GetOwe()
+
+        self.AddOwe.clicked.connect(self.AddRecord)
+        self.DelOwe.clicked.connect(self.DelRecord)
+        self.SaveOwe.clicked.connect(self.SaveRecord)
+
+    def AddRecord(self):
+        newrow = self.tableWidget1.rowCount() + 1
+        self.tableWidget1.setRowCount(newrow)
+        combobox1 = QComboBox()
+        combobox1.addItems(self.person_list)
+        combobox2 = QComboBox()
+        combobox2.addItems(self.person_list)
+        datebox = QDateEdit()
+        datebox.setMinimumDate(self.min_date)
+        datebox.setMaximumDate(self.max_date)
+        datebox.setCalendarPopup(True)
+        # Loop with ['person1','person2','Date','Spend','Description']
+        for i in range(5):
+            if i == 0:
+                self.tableWidget1.setCellWidget(newrow-1, i, combobox1)
+            elif i ==1:
+                self.tableWidget1.setCellWidget(newrow-1, i, combobox2)
+            elif i == 2:
+                self.tableWidget1.setCellWidget(newrow-1, i, datebox)
+            else:
+                self.tableWidget1.setItem(newrow, i, QTableWidgetItem(""))
+
+    def DelRecord(self):
+        selected = self.tableWidget1.currentRow()
+        self.tableWidget1.removeRow(selected)
+
+    def SaveRecord(self):
+        rows = self.tableWidget1.rowCount()
+        new_list = []
+        for row in range(0, rows):
+            row_item = []
+            for i in range(5):
+                if i < 2:
+                    item = self.tableWidget1.cellWidget(row, i)
+                    item = item.currentText()
+                elif i == 2:
+                    item = self.tableWidget1.cellWidget(row, i)
+                    item = item.text()
+                elif i == 3:
+                    item = self.tableWidget1.item(row, i).text()
+                else:                    
+                    item = self.tableWidget1.item(row, i)
+                    if item is not None:
+                        item = item.text()
+                    else:
+                        item = ''
+                row_item.append(item)
+            new_list.append(row_item)
+
+        record = Mongo("pybill", 'OweRecord',new_list,self.select_period)
+        record1 = record.recordMongo()
+        self.close()
+
+    def GetOwe(self):
+        connection = self.MongoConnect()
+        data = connection.recordUi()
+        rowcount = len(data)
+        self.tableWidget1.setRowCount(rowcount)
+        self.tableWidget1.setColumnCount(5)
+        for row_number, row_data in enumerate(data):
+            for column_number, data in enumerate(row_data):
+                if column_number < 3:
+                    if column_number < 2 :
+                        personbox = QComboBox()
+                        personbox.addItems(self.person_list)
+                        personbox.setCurrentText(str(data))
+                        self.tableWidget1.setCellWidget(
+                            row_number, column_number, personbox
+                        )
+                    else:
+                        datebox = QDateEdit()
+                        date = QDate()
+                        yy = int(data.split('/')[0])
+                        mm = int(data.split('/')[1])
+                        dd = int(data.split('/')[2])
+                        date.setDate(yy,mm,dd)
+                        datebox.setDate(date)
+                        
+                        datebox.setMinimumDate(self.min_date)
+                        datebox.setMaximumDate(self.max_date)
+                        datebox.setCalendarPopup(True)
+
+                        self.tableWidget1.setCellWidget(
+                            row_number, column_number, datebox
+                        )
+
+
+                else:
+                    self.tableWidget1.setItem(
+                        row_number, column_number, QTableWidgetItem(str(data))
+                    )
+
+
+
+    def MongoConnect(self):
+        
+        connection = Mongo("pybill","OweRecord",savelist=None,select_period=self.select_period)
+        return connection
+
+
+    
 
 class MyMainForm(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
@@ -122,6 +245,7 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
         self.save_change.clicked.connect(self.SaveChange)
         self.edit_person.clicked.connect(self.person_window)
         self.edit_cate.clicked.connect(self.cate_window)
+        self.edit_owe.clicked.connect(self.owe_window)
 
         # Exit Program
         self.exit.clicked.connect(self.close)
@@ -130,8 +254,9 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
 
         selectedMonth = self.month[self.month_index]
         selectedYear = str(self.selectedYear)
-        self.Month.setText(selectedMonth + "/" + selectedYear)
+        self.Month.setText(selectedMonth + " , " + selectedYear)
         self.Month.setAlignment(QtCore.Qt.AlignCenter)
+        self.Month.setFontWeight(15)
         self.select_period = selectedMonth + "/" + selectedYear
         self.Cal_month()
         self.GetRow()
@@ -159,6 +284,12 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
 
     def cate_window(self):
         self.dialog = EditDialog(self.cate_dialog)
+        self.dialog.show()
+
+    def owe_window(self):
+        person = Mongo("pybill", self.person_dialog)
+        person1 = person.selectionUi()
+        self.dialog = EditOweDialog(person1,self.selectedYear,self.month[self.month_index],self.month_index,self.max_date,self.min_date)
         self.dialog.show()
    
     def Cal_month(self):

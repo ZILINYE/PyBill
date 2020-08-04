@@ -32,14 +32,16 @@ class Mongo:
         for items in self.savelist:
             dic = {}
             for item in items:
+                
                 title_index = items.index(item)
+                if title_index ==3:
+                    item = int(item)
                 title = key_list[title_index]
                 dic.update({title:item})
             dic.update({'Period':self.select_period })
             mongolist.append(dic)
-
         try:
-            if mongolist is not None:
+            if len(mongolist) > 0:
                 x = self.collection.find_one({'Period':self.select_period })
                 if x is not None:
                     
@@ -47,6 +49,8 @@ class Mongo:
                     self.collection.insert_many(mongolist)
                 else:
                     self.collection.insert_many(mongolist)
+            else:
+                self.collection.delete_many({'Period':self.select_period })
 
         except EOFError as e:
             print(e)
