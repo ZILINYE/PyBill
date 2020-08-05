@@ -13,13 +13,17 @@ from PyQt5.QtWidgets import (
 
 )
 from PyQt5.QtCore import QDateTime,QDate
-
+from PyQt5.QtChart import QChart, QChartView, QPieSeries, QPieSlice
+from PyQt5.QtGui import QPainter, QPen
+from PyQt5.QtCore import Qt
 from PyQt5 import QtCore
 from datetime import datetime
 from mongo import Mongo
 from View.PyBill import Ui_MainWindow
 from View.dialog_edit import Ui_Dialog
 from View.addowe import Add_owe
+from View.Report import Report_Ui
+from calculate import Calculator
 
 class EditDialog(QMainWindow, Ui_Dialog):
     def __init__(self, dialog):
@@ -198,6 +202,85 @@ class EditOweDialog(QMainWindow,Add_owe):
         connection = Mongo("pybill","OweRecord",savelist=None,select_period=self.select_period)
         return connection
 
+class Report(QMainWindow,Report_Ui):
+    def __init__(self, total_cost, avageCost,SpendByPerson,SpendByCate,SolutionList):
+        super(Report, self).__init__()
+        self.setupUi(self)
+
+        self.total_cost = total_cost
+        self.avageCost = avageCost
+        self.SpendByPerson = SpendByPerson
+        self.SpendByCate = SpendByCate
+        self.SolutionList = SolutionList
+        self.series = QPieSeries()
+        self.SetText()
+        self.SetTable()
+        self.SetChart()
+
+
+    def SetText(self):
+        self.totalSpend.setText(str(self.total_cost))
+        self.averageSpend.setText(str(self.avageCost ))
+    def SetTable(self):
+        rowcount = len(self.SpendByPerson)
+        self.table2Widget.setRowCount(rowcount)
+        self.table2Widget.setColumnCount(2)
+
+        for i in range(rowcount):
+            name = list(self.SpendByPerson.keys())[i]
+            cost = list(self.SpendByPerson.values())[i]
+            self.table2Widget.setItem(i,0,QTableWidgetItem(str(name)))
+            self.table2Widget.setItem(i,1,QTableWidgetItem(str(cost)))
+        self.list2Widget.addItems(self.SolutionList)
+    def SetChart(self):
+                
+        # self.series.append("Python", 100)
+        # self.series.append("C++", 70)
+        # self.series.append("Java", 150)
+        # self.series.append("C#", 40)
+        # self.series.append("PHP", 30)
+        for key,value in self.SpendByCate.items():
+            self.series.append(key, value)
+        self.series.setLabelsVisible(True)
+        # series.slices()[1].doubleClicked.connect(self.test)
+        # for item in self.series.slices():
+        #     index = self.series.slices().index(item)
+        #     item.doubleClicked.connect(lambda : self.test(index))
+
+
+        # #adding slice
+        # slice = QPieSlice()
+        # slice = series.slices()[1]
+        # # slice.setExploded(True)
+        # slice.setLabelVisible(True)
+        # slice.setPen(QPen(Qt.darkGreen, 2))
+        # slice.setBrush(Qt.green)
+    
+
+
+
+
+        chart = QChart()
+        chart.legend().hide()
+        chart.addSeries(self.series)
+        chart.createDefaultAxes()
+        chart.setAnimationOptions(QChart.SeriesAnimations)
+        chart.setTitle("Monthly Summary")
+
+    
+
+        chart.legend().setVisible(True)
+        chart.legend().setAlignment(Qt.AlignBottom)
+
+        chartview = QChartView(chart)
+        chartview.setRenderHint(QPainter.Antialiasing)
+
+        # self.setCentralWidget(chartview)
+        
+        self.chartLayout.addWidget(chartview)
+
+      
+
 
     
 
@@ -243,12 +326,23 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
         self.addRow.clicked.connect(self.AddRow)
         self.delRow.clicked.connect(self.DelRow)
         self.save_change.clicked.connect(self.SaveChange)
+        self.Calculate.clicked.connect(self.GetReport)
         self.edit_person.clicked.connect(self.person_window)
         self.edit_cate.clicked.connect(self.cate_window)
         self.edit_owe.clicked.connect(self.owe_window)
 
         # Exit Program
         self.exit.clicked.connect(self.close)
+    def GetReport(self):
+        x = Calculator(self.select_period)
+        
+        total_cost,avagcost,allpersonCost,cateCost,solutionList = x.returnData()
+
+
+        # print(total_cost,avagcost,allpersonCost,cateCost,solutionList )
+        self.dialog = Report(total_cost,avagcost,allpersonCost,cateCost,solutionList )
+        self.dialog.show()
+        
 
     def SetTitle(self):
 
