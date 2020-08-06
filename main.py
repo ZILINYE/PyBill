@@ -23,6 +23,7 @@ from View.PyBill import Ui_MainWindow
 from View.dialog_edit import Ui_Dialog
 from View.addowe import Add_owe
 from View.Report import Report_Ui
+from View.ErrorDisplay import ErrorMsg
 from calculate import Calculator
 
 class EditDialog(QMainWindow, Ui_Dialog):
@@ -233,33 +234,9 @@ class Report(QMainWindow,Report_Ui):
             self.table2Widget.setItem(i,1,QTableWidgetItem(str(cost)))
         self.list2Widget.addItems(self.SolutionList)
     def SetChart(self):
-                
-        # self.series.append("Python", 100)
-        # self.series.append("C++", 70)
-        # self.series.append("Java", 150)
-        # self.series.append("C#", 40)
-        # self.series.append("PHP", 30)
         for key,value in self.SpendByCate.items():
             self.series.append(key, value)
         self.series.setLabelsVisible(True)
-        # series.slices()[1].doubleClicked.connect(self.test)
-        # for item in self.series.slices():
-        #     index = self.series.slices().index(item)
-        #     item.doubleClicked.connect(lambda : self.test(index))
-
-
-        # #adding slice
-        # slice = QPieSlice()
-        # slice = series.slices()[1]
-        # # slice.setExploded(True)
-        # slice.setLabelVisible(True)
-        # slice.setPen(QPen(Qt.darkGreen, 2))
-        # slice.setBrush(Qt.green)
-    
-
-
-
-
         chart = QChart()
         chart.legend().hide()
         chart.addSeries(self.series)
@@ -274,15 +251,9 @@ class Report(QMainWindow,Report_Ui):
 
         chartview = QChartView(chart)
         chartview.setRenderHint(QPainter.Antialiasing)
-
-        # self.setCentralWidget(chartview)
-        
         self.chartLayout.addWidget(chartview)
 
       
-
-
-    
 
 class MyMainForm(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
@@ -478,6 +449,11 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
                 self.tableWidget.setCellWidget(newrow-1, i, combobox2)
             elif i == 2:
                 self.tableWidget.setCellWidget(newrow-1, i, datebox)
+            # elif i == 3:
+            #     item = QTableWidgetItem()
+            
+            #     self.tableWidget.setItem()
+            #     self.tableWidget.setItem(newrow, i, item)
             else:
                 self.tableWidget.setItem(newrow, i, QTableWidgetItem(""))
 
@@ -488,31 +464,53 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
     def SaveChange(self):
         rows = self.tableWidget.rowCount()
         new_list = []
-        for row in range(0, rows):
-            row_item = []
-            for i in range(5):
-                if i < 2:
-                    item = self.tableWidget.cellWidget(row, i)
-                    item = item.currentText()
-                elif i == 2:
-                    item = self.tableWidget.cellWidget(row, i)
-                    item = item.text()
-                elif i == 3:
-                    item = self.tableWidget.item(row, i).text()
-                else:                    
-                    item = self.tableWidget.item(row, i)
-                    if item is not None:
+        try:
+            for row in range(0, rows):
+                row_item = []
+                for i in range(5):
+                    if i < 2:
+                        item = self.tableWidget.cellWidget(row, i)
+                        item = item.currentText()
+                    elif i == 2:
+                        item = self.tableWidget.cellWidget(row, i)
                         item = item.text()
-                    else:
-                        item = ''
-                row_item.append(item)
-            new_list.append(row_item)
+                    elif i == 3:
+                        item = self.tableWidget.item(row, i).text()
+                        item = float(item)
 
-        record = Mongo("pybill", 'BillRecord',new_list,self.select_period)
-        record1 = record.recordMongo()
-
+                    else:                    
+                        item = self.tableWidget.item(row, i)
+                        if item is not None:
+                            item = item.text()
+                        else:
+                            item = ''
+                    row_item.append(item)
+                new_list.append(row_item)
+        except ValueError:
+            msg = "Cost can only be Integer or Float!"
+            self.dialog = ErrShow(msg)
+            self.dialog.show()
+        
+        else:
+            record = Mongo("pybill", 'BillRecord',new_list,self.select_period)
+            record1 = record.recordMongo()
 
     # def DiscardChange(self):
+
+class ErrShow(QMainWindow,ErrorMsg):
+    def __init__(self,ErrMsg):
+        super(ErrShow, self).__init__()
+        self.setupUi(self)
+   
+        self.ErrorShow.setText(ErrMsg)
+        self.setWindowTitle('Error')
+        self.ErrorShow.setAlignment(Qt.AlignCenter)
+
+
+
+        
+
+
 
 
 if __name__ == "__main__":
