@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>814</width>
-    <height>1297</height>
+    <width>849</width>
+    <height>975</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>20</y>
+     <x>30</x>
+     <y>30</y>
      <width>91</width>
      <height>41</height>
     </rect>
@@ -36,8 +36,8 @@
   <widget class="QTextBrowser" name="totalSpend">
    <property name="geometry">
     <rect>
-     <x>390</x>
-     <y>20</y>
+     <x>150</x>
+     <y>30</y>
      <width>221</width>
      <height>41</height>
     </rect>
@@ -46,8 +46,8 @@
   <widget class="QTableWidget" name="table2Widget">
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>140</y>
+     <x>10</x>
+     <y>160</y>
      <width>411</width>
      <height>241</height>
     </rect>
@@ -79,8 +79,8 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>80</y>
+     <x>420</x>
+     <y>30</y>
      <width>111</width>
      <height>41</height>
     </rect>
@@ -99,8 +99,8 @@
   <widget class="QTextBrowser" name="averageSpend">
    <property name="geometry">
     <rect>
-     <x>390</x>
-     <y>80</y>
+     <x>600</x>
+     <y>30</y>
      <width>221</width>
      <height>41</height>
     </rect>
@@ -109,8 +109,8 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>340</x>
-     <y>400</y>
+     <x>570</x>
+     <y>110</y>
      <width>121</width>
      <height>31</height>
     </rect>
@@ -129,8 +129,8 @@
   <widget class="QListWidget" name="list2Widget">
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>460</y>
+     <x>430</x>
+     <y>160</y>
      <width>411</width>
      <height>241</height>
     </rect>
@@ -139,8 +139,8 @@
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>330</x>
-     <y>740</y>
+     <x>350</x>
+     <y>410</y>
      <width>151</width>
      <height>31</height>
     </rect>
@@ -159,8 +159,8 @@
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>800</y>
+     <x>80</x>
+     <y>450</y>
      <width>681</width>
      <height>481</height>
     </rect>
