@@ -148,7 +148,7 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Previous Month&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="text">
-     <string/>
+     <string>Previous</string>
     </property>
     <property name="icon">
      <iconset>
@@ -168,7 +168,7 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Next Month&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="text">
-     <string/>
+     <string>Next</string>
     </property>
     <property name="icon">
      <iconset>
@@ -180,7 +180,7 @@
      <rect>
       <x>90</x>
       <y>630</y>
-      <width>41</width>
+      <width>71</width>
       <height>31</height>
      </rect>
     </property>
@@ -188,7 +188,7 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Add New Record&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="text">
-     <string/>
+     <string>Add</string>
     </property>
     <property name="icon">
      <iconset>
@@ -198,9 +198,9 @@
    <widget class="QPushButton" name="delRow">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>160</x>
       <y>630</y>
-      <width>41</width>
+      <width>81</width>
       <height>31</height>
      </rect>
     </property>
@@ -208,7 +208,7 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Remove Record&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="text">
-     <string/>
+     <string>Delete</string>
     </property>
     <property name="icon">
      <iconset>
@@ -258,7 +258,7 @@
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Edit Person&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="text">
-      <string/>
+      <string>Edit Person</string>
      </property>
      <property name="icon">
       <iconset>
@@ -270,7 +270,7 @@
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Edit Category&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="text">
-      <string/>
+      <string>Edit Category</string>
      </property>
      <property name="icon">
       <iconset>
@@ -282,7 +282,7 @@
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Edit Owe Record&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="text">
-      <string/>
+      <string>Add Owe</string>
      </property>
      <property name="icon">
       <iconset>
@@ -294,7 +294,7 @@
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Calculate This Month Spend&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="text">
-      <string/>
+      <string>Calculate</string>
      </property>
      <property name="icon">
       <iconset>

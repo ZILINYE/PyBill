@@ -17,15 +17,13 @@ class Ui_Dialog(object):
         Dialog.resize(400, 300)
         Dialog.setWindowTitle("")
         self.add = QtWidgets.QPushButton(Dialog)
-        self.add.setGeometry(QtCore.QRect(300, 20, 41, 31))
-        self.add.setText("")
+        self.add.setGeometry(QtCore.QRect(300, 20, 71, 31))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("View\\../Icon/Add.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.add.setIcon(icon)
         self.add.setObjectName("add")
         self.remove = QtWidgets.QPushButton(Dialog)
-        self.remove.setGeometry(QtCore.QRect(300, 60, 41, 31))
-        self.remove.setText("")
+        self.remove.setGeometry(QtCore.QRect(300, 60, 71, 31))
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap("View\\../Icon/Remove.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.remove.setIcon(icon1)
@@ -45,6 +43,8 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
+        self.add.setText(_translate("Dialog", "Add"))
+        self.remove.setText(_translate("Dialog", "Delete"))
         self.save.setText(_translate("Dialog", "Save"))
         self.cancelsave.setText(_translate("Dialog", "Cancel"))
 
