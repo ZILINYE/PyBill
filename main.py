@@ -394,9 +394,9 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
                     else:
                         datebox = QDateEdit()
                         date = QDate()
-                        yy = int(data.split('/')[0])
-                        mm = int(data.split('/')[1])
-                        dd = int(data.split('/')[2])
+                        yy = int(data.split('-')[0])
+                        mm = int(data.split('-')[1])
+                        dd = int(data.split('-')[2])
                         date.setDate(yy,mm,dd)
                         datebox.setDate(date)
                         

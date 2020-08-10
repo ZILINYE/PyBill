@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['main.py'],
-             pathex=['H:\\Desktop\\Project\\pybill'],
+             pathex=['C:\\Users\\yezil\\Desktop\\Project\\pybill'],
              binaries=[],
              datas=[],
              hiddenimports=[],
