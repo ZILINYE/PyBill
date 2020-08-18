@@ -12,10 +12,9 @@ from PyQt5.QtWidgets import (
     QDateTimeEdit,
 
 )
-from PyQt5.QtCore import QDateTime,QDate
+from PyQt5.QtCore import QDateTime,QDate,Qt
 from PyQt5.QtChart import QChart, QChartView, QPieSeries, QPieSlice
 from PyQt5.QtGui import QPainter, QPen
-from PyQt5.QtCore import Qt
 from PyQt5 import QtCore
 from datetime import datetime
 from mongo import Mongo
@@ -176,9 +175,9 @@ class EditOweDialog(QMainWindow,Add_owe):
                     else:
                         datebox = QDateEdit()
                         date = QDate()
-                        yy = int(data.split('/')[0])
-                        mm = int(data.split('/')[1])
-                        dd = int(data.split('/')[2])
+                        yy = int(data.split('-')[0])
+                        mm = int(data.split('-')[1])
+                        dd = int(data.split('-')[2])
                         date.setDate(yy,mm,dd)
                         datebox.setDate(date)
                         
@@ -232,7 +231,9 @@ class Report(QMainWindow,Report_Ui):
             cost = list(self.SpendByPerson.values())[i]
             self.table2Widget.setItem(i,0,QTableWidgetItem(str(name)))
             self.table2Widget.setItem(i,1,QTableWidgetItem(str(cost)))
-        self.list2Widget.addItems(self.SolutionList)
+        slist = list(x[0] + ' 欠 ' +x[1]+' : '+x[2] for x in self.SolutionList )
+        self.list2Widget.addItems(slist)
+
     def SetChart(self):
         for key,value in self.SpendByCate.items():
             self.series.append(key, value)
@@ -449,11 +450,7 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
                 self.tableWidget.setCellWidget(newrow-1, i, combobox2)
             elif i == 2:
                 self.tableWidget.setCellWidget(newrow-1, i, datebox)
-            # elif i == 3:
-            #     item = QTableWidgetItem()
-            
-            #     self.tableWidget.setItem()
-            #     self.tableWidget.setItem(newrow, i, item)
+
             else:
                 self.tableWidget.setItem(newrow, i, QTableWidgetItem(""))
 

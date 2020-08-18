@@ -1,23 +1,5 @@
 from pymongo import MongoClient
 from View.Report import Report_Ui
-
-import sys
-from PyQt5.QtWidgets import (
-    QApplication,
-    QMainWindow,
-    QTableWidgetItem,
-    QComboBox,
-    QLineEdit,
-    QInputDialog,
-    QDateEdit,
-    QDateTimeEdit,
-
-)
-from PyQt5.QtCore import QDateTime,QDate
-
-from PyQt5 import QtCore
-
-
 class Calculator:
     def __init__(self,selected_period):
         self.selected_period = selected_period
@@ -26,6 +8,7 @@ class Calculator:
         self.record = db['BillRecord']
         self.cate = db['Category']
         self.person = db['Person']
+        self.owerecord = db['OweRecord']
         self.personlist = []
         self.catelist =[]
         self.allpersonCost = {}
@@ -40,9 +23,9 @@ class Calculator:
         self.GetPerCateCost()
         self.GetPerpersonCost()
         self.seperate()
+        self.OweRecord()
         self.CostSolution()
-        
-        # self.returnData()
+
    
     def init_person(self):
         datalist = self.person.find()
@@ -55,6 +38,10 @@ class Calculator:
             self.catelist.append(item["name"])
     
 
+    def OweRecord(self):
+        owe = self.owerecord.find({'Period':self.selected_period })
+        for item in owe:
+            self.solutionList.append([item['Name'],item['Cate'],item['Spend']])
 
     def BasicCalculate(self,filtername,valname):
         agr = [ {'$match':{'$and':[{'Period':self.selected_period},{filtername:valname}]}},{'$group': {'_id': 1, 'all': { '$sum': '$Spend' } } } ]
@@ -105,20 +92,18 @@ class Calculator:
                     t = list1v[i]  - list2v[y]
                     if t > 0:
                         list1v[i] = t
-                        self.solutionList.append(list1k[i]+' 欠  '+list2k[y]+' '+str(list2v[y]))                               
-                        # print('Owe'+list1k[i]+' owe  Borrow'+list2k[y]+' '+str(list2v[y]))
+                        self.solutionList.append([list1k[i],list2k[y],str(list2v[y])])                               
                         list2v[y] = 0
 
                     elif t == 0:
-                        self.solutionList.append(list1k[i]+' 欠  '+list2k[y]+' '+str(list2v[y]))
+                        self.solutionList.append([list1k[i],list2k[y],str(list2v[y])])
                         list2v[y] = 0
                         break
 
                     
                     else:
                         list2v[y] = -t
-                        self.solutionList.append(list1k[i]+' 欠  '+list2k[y]+' '+str(list1v[i]))
+                        self.solutionList.append([list1k[i],list2k[y],str(list1v[i])])
                         break
     def returnData(self):
         return self.total_cost,self.avagcost,self.allpersonCost,self.cateCost,self.solutionList
-        # print(self.total_cost,self.avagcost,self.allpersonCost,self.cateCost,self.solutionList)
