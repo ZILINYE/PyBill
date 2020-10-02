@@ -3,7 +3,7 @@ from pymongo import MongoClient
 
 class Mongo:
     def __init__(self, databasename, collectionname, savelist=None,select_period=None):
-        mongo_client = MongoClient("192.168.2.60", 27017)
+        mongo_client = MongoClient("<IP Address>", 27017)
         db = mongo_client[databasename]
         self.collection = db[collectionname]
         self.savelist = savelist
