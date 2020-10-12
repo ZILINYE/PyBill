@@ -1,8 +1,8 @@
 ioPaths:
 
-  -
-    - "Resource/Icon.qrc"
-    - "View/Icon_rc.py"
+  # -
+  #   - "Resource/Icon.qrc"
+  #   - "View/Icon_rc.py"
   -
     - "Ui/PyBill.ui"
     - "View/PyBill.py"

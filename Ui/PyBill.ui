@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>874</width>
-    <height>1190</height>
+    <height>966</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -111,8 +111,6 @@
            <property name="styleSheet">
             <string notr="true">QPushButton
 {
-    /*字体为微软雅黑*/
-    font-family:Microsoft Yahei;
     /*字体大小为20点*/
     font-size:20pt;
     /*字体颜色为白色*/    
@@ -186,8 +184,7 @@ QPushButton:pressed
            <property name="styleSheet">
             <string notr="true">QPushButton
 {
-    /*字体为微软雅黑*/
-    font-family:Microsoft Yahei;
+
     /*字体大小为20点*/
     font-size:20pt;
     /*字体颜色为白色*/    
@@ -283,7 +280,6 @@ QTableWidget
     border:none;                   // 整个表格控件 边框
  
     font-size:12px;                // 所有字体大小
-    font-family:&quot;Microsoft YaHei&quot;; // 所有字体 family
     color:#666666;                 // 所有字体颜色
 }
 
@@ -349,13 +345,6 @@ QTableWidget
               <weight>75</weight>
               <bold>true</bold>
              </font>
-            </property>
-            <property name="background">
-             <color>
-              <red>170</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
             </property>
            </column>
            <column>
@@ -424,8 +413,7 @@ QTableWidget
         <property name="styleSheet">
          <string notr="true">QPushButton
 {
-    /*字体为微软雅黑*/
-    font-family:Microsoft Yahei;
+
     /*字体大小为20点*/
     font-size:10pt;
     /*字体颜色为白色*/    
@@ -475,7 +463,6 @@ QPushButton:pressed
           <widget class="QPushButton" name="delRow">
            <property name="font">
             <font>
-             <family>Microsoft Yahei</family>
              <pointsize>10</pointsize>
              <weight>75</weight>
              <bold>true</bold>
@@ -483,6 +470,47 @@ QPushButton:pressed
            </property>
            <property name="toolTip">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Remove Record&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton
+{
+    /*字体大小为20点*/
+    font-size:10pt;
+    /*字体颜色为白色*/    
+	color:white;
+    /*背景颜色*/  
+    
+	background-color: rgb(230, 151, 68);
+    /*边框圆角半径为8像素*/ 
+    border-radius:8px;
+	border-color:grey;
+	border-width:1px;
+	border-style:solid;
+}
+
+/*按钮停留态*/
+QPushButton:hover
+{
+    /*背景颜色*/  
+    
+	background-color: rgb(255, 144, 47);
+}
+
+/*按钮按下态*/
+QPushButton:pressed
+{
+    /*背景颜色*/  
+    
+	
+	background-color: rgb(255, 123, 7);
+    /*左内边距为3像素，让按下时字向右移动3像素*/  
+    padding-left:3px;
+    /*上内边距为3像素，让按下时字向下移动3像素*/  
+    padding-top:3px;
+	border-color:black;
+	border-width:1px;
+	border-style:solid;
+}</string>
            </property>
            <property name="text">
             <string>Delete</string>
@@ -497,7 +525,6 @@ QPushButton:pressed
           <widget class="QPushButton" name="addRow">
            <property name="font">
             <font>
-             <family>Microsoft Yahei</family>
              <pointsize>10</pointsize>
              <weight>75</weight>
              <bold>true</bold>
@@ -509,8 +536,6 @@ QPushButton:pressed
            <property name="styleSheet">
             <string notr="true">QPushButton
 {
-    /*字体为微软雅黑*/
-    font-family:Microsoft Yahei;
     /*字体大小为20点*/
     font-size:10pt;
     /*字体颜色为白色*/    

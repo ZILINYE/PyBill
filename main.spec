@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['main.py'],
-             pathex=['C:\\Users\\yezil\\Desktop\\Project\\pybill'],
+             pathex=['/Users/zilinye/Documents/PyBill'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -31,3 +31,7 @@ exe = EXE(pyz,
           upx_exclude=[],
           runtime_tmpdir=None,
           console=False )
+app = BUNDLE(exe,
+             name='main.app',
+             icon=None,
+             bundle_identifier=None)

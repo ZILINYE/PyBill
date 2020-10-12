@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\yezil\Desktop\Project\pybill\Ui\PyBill.ui'
+# Form implementation generated from reading ui file '/Users/zilinye/Documents/PyBill/Ui/PyBill.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.0
 #
@@ -14,8 +14,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(874, 1190)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        MainWindow.resize(874, 966)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
@@ -64,8 +64,6 @@ class Ui_MainWindow(object):
         self.NextMonth.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.NextMonth.setStyleSheet("QPushButton\n"
 "{\n"
-"    /*字体为微软雅黑*/\n"
-"    font-family:Microsoft Yahei;\n"
 "    /*字体大小为20点*/\n"
 "    font-size:20pt;\n"
 "    /*字体颜色为白色*/    \n"
@@ -117,8 +115,7 @@ class Ui_MainWindow(object):
         self.PreviousMonth.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.PreviousMonth.setStyleSheet("QPushButton\n"
 "{\n"
-"    /*字体为微软雅黑*/\n"
-"    font-family:Microsoft Yahei;\n"
+"\n"
 "    /*字体大小为20点*/\n"
 "    font-size:20pt;\n"
 "    /*字体颜色为白色*/    \n"
@@ -174,7 +171,7 @@ class Ui_MainWindow(object):
         self.gridLayout = QtWidgets.QGridLayout(self.frame_2)
         self.gridLayout.setObjectName("gridLayout")
         self.tableWidget = QtWidgets.QTableWidget(self.frame_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.tableWidget.sizePolicy().hasHeightForWidth())
@@ -188,7 +185,6 @@ class Ui_MainWindow(object):
 "    border:none;                   // 整个表格控件 边框\n"
 " \n"
 "    font-size:12px;                // 所有字体大小\n"
-"    font-family:\"Microsoft YaHei\"; // 所有字体 family\n"
 "    color:#666666;                 // 所有字体颜色\n"
 "}\n"
 "\n"
@@ -206,7 +202,6 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         item.setFont(font)
-        item.setBackground(QtGui.QColor(170, 255, 255))
         self.tableWidget.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
         font = QtGui.QFont()
@@ -256,8 +251,7 @@ class Ui_MainWindow(object):
         self.frame_3.setFont(font)
         self.frame_3.setStyleSheet("QPushButton\n"
 "{\n"
-"    /*字体为微软雅黑*/\n"
-"    font-family:Microsoft Yahei;\n"
+"\n"
 "    /*字体大小为20点*/\n"
 "    font-size:10pt;\n"
 "    /*字体颜色为白色*/    \n"
@@ -302,11 +296,49 @@ class Ui_MainWindow(object):
         self.gridLayout_4.setObjectName("gridLayout_4")
         self.delRow = QtWidgets.QPushButton(self.frame_3)
         font = QtGui.QFont()
-        font.setFamily("Microsoft Yahei")
         font.setPointSize(10)
         font.setBold(True)
         font.setWeight(75)
         self.delRow.setFont(font)
+        self.delRow.setStyleSheet("QPushButton\n"
+"{\n"
+"    /*字体大小为20点*/\n"
+"    font-size:10pt;\n"
+"    /*字体颜色为白色*/    \n"
+"    color:white;\n"
+"    /*背景颜色*/  \n"
+"    \n"
+"    background-color: rgb(230, 151, 68);\n"
+"    /*边框圆角半径为8像素*/ \n"
+"    border-radius:8px;\n"
+"    border-color:grey;\n"
+"    border-width:1px;\n"
+"    border-style:solid;\n"
+"}\n"
+"\n"
+"/*按钮停留态*/\n"
+"QPushButton:hover\n"
+"{\n"
+"    /*背景颜色*/  \n"
+"    \n"
+"    background-color: rgb(255, 144, 47);\n"
+"}\n"
+"\n"
+"/*按钮按下态*/\n"
+"QPushButton:pressed\n"
+"{\n"
+"    /*背景颜色*/  \n"
+"    \n"
+"    \n"
+"    background-color: rgb(255, 123, 7);\n"
+"    /*左内边距为3像素，让按下时字向右移动3像素*/  \n"
+"    padding-left:3px;\n"
+"    /*上内边距为3像素，让按下时字向下移动3像素*/  \n"
+"    padding-top:3px;\n"
+"    border-color:black;\n"
+"    border-width:1px;\n"
+"    border-style:solid;\n"
+"}")
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap(":/icon/Icon/Remove.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.delRow.setIcon(icon3)
@@ -314,15 +346,12 @@ class Ui_MainWindow(object):
         self.gridLayout_4.addWidget(self.delRow, 0, 1, 1, 1)
         self.addRow = QtWidgets.QPushButton(self.frame_3)
         font = QtGui.QFont()
-        font.setFamily("Microsoft Yahei")
         font.setPointSize(10)
         font.setBold(True)
         font.setWeight(75)
         self.addRow.setFont(font)
         self.addRow.setStyleSheet("QPushButton\n"
 "{\n"
-"    /*字体为微软雅黑*/\n"
-"    font-family:Microsoft Yahei;\n"
 "    /*字体大小为20点*/\n"
 "    font-size:10pt;\n"
 "    /*字体颜色为白色*/    \n"

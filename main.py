@@ -17,10 +17,11 @@ from PyQt5.QtWidgets import (
     QDialog,
     QFileDialog,
     QMessageBox,
-    QSplashScreen)
+    QSplashScreen,
+)
 from PyQt5.QtCore import QDate, Qt, QEvent
 from PyQt5.QtChart import QChart, QChartView, QPieSeries, QPieSlice
-from PyQt5.QtGui import QPainter, QPen,QPixmap
+from PyQt5.QtGui import QPainter, QPen, QPixmap
 from PyQt5 import QtCore
 
 # import UI
@@ -37,7 +38,7 @@ from datachan import Storage
 from loadconf import Conf
 from calculate import Calculator
 
-# Loading Page 
+# Loading Page
 class SplashPanel(QSplashScreen):
     def __init__(self):
         super(SplashPanel, self).__init__()
@@ -49,12 +50,15 @@ class SplashPanel(QSplashScreen):
     def mousePressEvent(self, evt):
         pass
         # 重写鼠标点击事件，阻止点击后消失
+
     def mouseDoubleClickEvent(self, *args, **kwargs):
         pass
         # 重写鼠标移动事件，阻止出现卡顿现象
+
     def enterEvent(self, *args, **kwargs):
         pass
         # 重写鼠标移动事件，阻止出现卡顿现象
+
     def mouseMoveEvent(self, *args, **kwargs):
         pass
         # 重写鼠标移动事件，阻止出现卡顿现象
@@ -103,8 +107,7 @@ class EditDialog(QMainWindow, Ui_Dialog):
 
     def AddPerson(self):
         row = self.listWidget.currentRow()
-        text, ok = QInputDialog.getText(
-            self, "Person Dialog", "Enter Person Name")
+        text, ok = QInputDialog.getText(self, "Person Dialog", "Enter Person Name")
 
         if ok and text is not None:
             self.listWidget.insertItem(row, text)
@@ -126,7 +129,7 @@ class EditDialog(QMainWindow, Ui_Dialog):
         data = connection.Selec_DB()
 
         msg = "Sucessfully Saved !"
-        x = PopupWindows('Success', msg)
+        x = PopupWindows("Success", msg)
 
         self.close()
 
@@ -142,8 +145,8 @@ class EditOweDialog(QMainWindow, Ui_DebtList):
         self.month = month
         self.max_date = max_date
         self.min_date = min_date
-        self.month_Number = month_index+1
-        self.select_period = self.month + '/'+str(self.year)
+        self.month_Number = month_index + 1
+        self.select_period = self.month + "/" + str(self.year)
 
         self.GetOwe()
 
@@ -165,11 +168,11 @@ class EditOweDialog(QMainWindow, Ui_DebtList):
         # Loop with ['person1','person2','Date','Spend','Description']
         for i in range(5):
             if i == 0:
-                self.tableWidget1.setCellWidget(newrow-1, i, combobox1)
+                self.tableWidget1.setCellWidget(newrow - 1, i, combobox1)
             elif i == 1:
-                self.tableWidget1.setCellWidget(newrow-1, i, combobox2)
+                self.tableWidget1.setCellWidget(newrow - 1, i, combobox2)
             elif i == 2:
-                self.tableWidget1.setCellWidget(newrow-1, i, datebox)
+                self.tableWidget1.setCellWidget(newrow - 1, i, datebox)
             else:
                 self.tableWidget1.setItem(newrow, i, QTableWidgetItem(""))
 
@@ -196,14 +199,14 @@ class EditOweDialog(QMainWindow, Ui_DebtList):
                     if item is not None:
                         item = item.text()
                     else:
-                        item = ''
+                        item = ""
                 row_item.append(item)
             new_list.append(row_item)
 
-        record = Storage('OweRecord', new_list, self.select_period)
+        record = Storage("OweRecord", new_list, self.select_period)
         record1 = record.Record_DB()
-        msg = 'Successfully Saved !'
-        x = PopupWindows('Success', msg)
+        msg = "Successfully Saved !"
+        x = PopupWindows("Success", msg)
         self.close()
 
     def GetOwe(self):
@@ -226,13 +229,13 @@ class EditOweDialog(QMainWindow, Ui_DebtList):
                         datebox = QDateEdit()
                         date = QDate()
                         try:
-                            yy = int(data.split('/')[0])
-                            mm = int(data.split('/')[1])
-                            dd = int(data.split('/')[2])
+                            yy = int(data.split("/")[0])
+                            mm = int(data.split("/")[1])
+                            dd = int(data.split("/")[2])
                         except:
-                            yy = int(data.split('-')[0])
-                            mm = int(data.split('-')[1])
-                            dd = int(data.split('-')[2])
+                            yy = int(data.split("-")[0])
+                            mm = int(data.split("-")[1])
+                            dd = int(data.split("-")[2])
                         date.setDate(yy, mm, dd)
                         datebox.setDate(date)
 
@@ -247,14 +250,13 @@ class EditOweDialog(QMainWindow, Ui_DebtList):
                 else:
                     item = QTableWidgetItem(str(data))
                     item.setTextAlignment(Qt.AlignCenter)
-                    self.tableWidget1.setItem(
-                        row_number, column_number, item
-                    )
+                    self.tableWidget1.setItem(row_number, column_number, item)
 
     def MongoConnect(self):
 
-        connection = Storage("OweRecord", savelist=None,
-                             select_period=self.select_period)
+        connection = Storage(
+            "OweRecord", savelist=None, select_period=self.select_period
+        )
         return connection
 
 
@@ -287,8 +289,9 @@ class Report(QMainWindow, Ui_Report):
             cost = list(self.SpendByPerson.values())[i]
             self.table2Widget.setItem(i, 0, QTableWidgetItem(str(name)))
             self.table2Widget.setItem(i, 1, QTableWidgetItem(str(cost)))
-        slist = list(x[0] + ' Should Transfer ' + x[1]+' : '+x[2]
-                     for x in self.SolutionList)
+        slist = list(
+            x[0] + " Should Transfer " + x[1] + " : " + x[2] for x in self.SolutionList
+        )
         self.list2Widget.addItems(slist)
 
     def SetChart(self):
@@ -314,8 +317,8 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super(MyMainForm, self).__init__(parent)
         self.setupUi(self)
-        self.person_dialog = 'Person'
-        self.cate_dialog = 'Category'
+        self.person_dialog = "Person"
+        self.cate_dialog = "Category"
 
         # Set Up Title and DateBox Default Value
         current_month = strftime("%B")
@@ -360,9 +363,7 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
         self.edit_cate.triggered.connect(self.cate_window)
         self.edit_owe.triggered.connect(self.owe_window)
         self.OpenNew.triggered.connect(self.Open_New)
-
-        # Exit Program
-        # self.exit.clicked.connect(self.close)
+        self.AddNew.triggered.connect(self.Add_New)
 
     def Open_New(self):
 
@@ -377,8 +378,8 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
             self.__init__()
             self.show()
         else:
-            msg = 'Could not open file or cannot connect to database'
-            x = PopupWindows('Critical', msg)
+            msg = "Could not open file or cannot connect to database"
+            x = PopupWindows("Critical", msg)
 
     def Add_New(self):
 
@@ -390,15 +391,16 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
             self.__init__()
             self.show()
         else:
-            msg = 'Could not open file or cannot connect to database'
-            x = PopupWindows('Critical', msg)
+            msg = "Could not open file or cannot connect to database"
+            x = PopupWindows("Critical", msg)
 
     def GetReport(self):
         x = Calculator(self.select_period)
 
         total_cost, avagcost, allpersonCost, cateCost, solutionList = x.returnData()
-        self.dialog = Report(total_cost, avagcost,
-                             allpersonCost, cateCost, solutionList)
+        self.dialog = Report(
+            total_cost, avagcost, allpersonCost, cateCost, solutionList
+        )
         self.dialog.show()
 
     def SetTitle(self):
@@ -438,7 +440,13 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
         person = Storage(self.person_dialog)
         person1 = person.Selec_Ui()
         self.dialog = EditOweDialog(
-            person1, self.selectedYear, self.month[self.month_index], self.month_index, self.max_date, self.min_date)
+            person1,
+            self.selectedYear,
+            self.month[self.month_index],
+            self.month_index,
+            self.max_date,
+            self.min_date,
+        )
         self.dialog.show()
 
     def Cal_month(self):
@@ -482,13 +490,13 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
                         datebox = QDateEdit()
                         date = QDate()
                         try:
-                            yy = int(data.split('/')[0])
-                            mm = int(data.split('/')[1])
-                            dd = int(data.split('/')[2])
+                            yy = int(data.split("/")[0])
+                            mm = int(data.split("/")[1])
+                            dd = int(data.split("/")[2])
                         except:
-                            yy = int(data.split('-')[0])
-                            mm = int(data.split('-')[1])
-                            dd = int(data.split('-')[2])
+                            yy = int(data.split("-")[0])
+                            mm = int(data.split("-")[1])
+                            dd = int(data.split("-")[2])
                         date.setDate(yy, mm, dd)
                         datebox.setDate(date)
 
@@ -503,17 +511,14 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
                 else:
                     item = QTableWidgetItem(str(data))
                     item.setTextAlignment(Qt.AlignCenter)
-                    self.tableWidget.setItem(
-                        row_number, column_number, item
-                    )
+                    self.tableWidget.setItem(row_number, column_number, item)
 
     # Retrive Data from DB
     def GetRow(self):
 
-        person = Storage('Person', self.person_dialog)
-        cate = Storage('Category', self.cate_dialog)
-        record = Storage('BillRecord', savelist=None,
-                         select_period=self.select_period)
+        person = Storage("Person", self.person_dialog)
+        cate = Storage("Category", self.cate_dialog)
+        record = Storage("BillRecord", savelist=None, select_period=self.select_period)
 
         record1 = record.Record_Ui()
 
@@ -525,8 +530,8 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
     # Add New Row
     def AddRow(self):
         # Set up New Row with Combobox and DateBox
-        person = Storage('Person', self.person_dialog)
-        cate = Storage('Category', self.cate_dialog)
+        person = Storage("Person", self.person_dialog)
+        cate = Storage("Category", self.cate_dialog)
         cate1 = cate.Selec_Ui()
         person1 = person.Selec_Ui()
         newrow = self.tableWidget.rowCount() + 1
@@ -542,11 +547,11 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
         # Loop with ['Name','Cate','Date','Spend','Description']
         for i in range(5):
             if i == 0:
-                self.tableWidget.setCellWidget(newrow-1, i, combobox1)
+                self.tableWidget.setCellWidget(newrow - 1, i, combobox1)
             elif i == 1:
-                self.tableWidget.setCellWidget(newrow-1, i, combobox2)
+                self.tableWidget.setCellWidget(newrow - 1, i, combobox2)
             elif i == 2:
-                self.tableWidget.setCellWidget(newrow-1, i, datebox)
+                self.tableWidget.setCellWidget(newrow - 1, i, datebox)
 
             else:
                 self.tableWidget.setItem(newrow, i, QTableWidgetItem(""))
@@ -577,28 +582,27 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
                         if item is not None:
                             item = item.text()
                         else:
-                            item = ''
+                            item = ""
                     row_item.append(item)
                 new_list.append(row_item)
         except ValueError:
 
             msg = "Cost can only be Integer or Float!"
-            errorshow = PopupWindows('Critical', msg)
+            errorshow = PopupWindows("Critical", msg)
 
         else:
-            record = Storage('BillRecord', new_list, self.select_period)
+            record = Storage("BillRecord", new_list, self.select_period)
             record1 = record.Record_DB()
             msg = "Sucessfully Saved !"
-            s = PopupWindows('Success', msg)
+            s = PopupWindows("Success", msg)
 
 
 class PopupWindows(QMessageBox):
     def __init__(self, msgtype, Msg):
         wdw = QMessageBox()
-        wdw.setWindowTitle('Notification')
+        wdw.setWindowTitle("Notification")
         wdw.setText(Msg)
-        icon_dic = {'Success': QMessageBox.NoIcon, 'Critical': QMessageBox.Critical
-                    }
+        icon_dic = {"Success": QMessageBox.NoIcon, "Critical": QMessageBox.Critical}
         wdw.setIcon(icon_dic[msgtype])
         x = wdw.exec_()
 
@@ -615,24 +619,22 @@ class NewStorage(QDialog, Ui_NewStorage):
 
     def CreateDB(self):
         creator = QFileDialog()
-        filename = creator.getSaveFileName(
-            filter="*.db *.sqlite *.sqlite3 *.db3")
+        filename = creator.getSaveFileName(filter="*.db *.sqlite *.sqlite3 *.db3")
         self.sql_filename.setText(filename[0])
 
     def ChooseDB(self):
         select = QFileDialog()
-        filename = select.getOpenFileName(
-            filter="*.db *.sqlite *.sqlite3 *.db3")
+        filename = select.getOpenFileName(filter="*.db *.sqlite *.sqlite3 *.db3")
         self.sql_filename.setText(filename[0])
 
     def GetConfig(self):
-        sql_filename = ''
-        mongo_ip = ''
-        mongo_uname = ''
-        mongo_pass = ''
-        mongo_dbname = ''
+        sql_filename = ""
+        mongo_ip = ""
+        mongo_uname = ""
+        mongo_pass = ""
+        mongo_dbname = ""
         err = False
-        if (self.sqlite.isChecked()):
+        if self.sqlite.isChecked():
             RecordType = "sqlite"
             sql_filename = self.sql_filename.text()
 
@@ -648,17 +650,17 @@ class NewStorage(QDialog, Ui_NewStorage):
                 try:
                     conn = sqlite3.connect(sql_filename)
                     cur = conn.cursor()
-                    person = '''CREATE TABLE "Person" (
+                    person = """CREATE TABLE "Person" (
             "person_id"	INTEGER NOT NULL UNIQUE,
             "person_name"	TEXT NOT NULL,
             PRIMARY KEY("person_id" AUTOINCREMENT)
-        )'''
-                    cate = '''CREATE TABLE "Category" (
+        )"""
+                    cate = """CREATE TABLE "Category" (
         "cate_id"	INTEGER NOT NULL UNIQUE,
         "cate_name"	TEXT NOT NULL,
         PRIMARY KEY("cate_id" AUTOINCREMENT)
-    )'''
-                    owe = '''CREATE TABLE "OweRecord" (
+    )"""
+                    owe = """CREATE TABLE "OweRecord" (
         "owe_id"	INTEGER NOT NULL UNIQUE,
         "Name"	TEXT NOT NULL,
         "Cate"	TEXT NOT NULL,
@@ -667,8 +669,8 @@ class NewStorage(QDialog, Ui_NewStorage):
         "Description"	TEXT,
         "Period"	TEXT NOT NULL,
         PRIMARY KEY("owe_id" AUTOINCREMENT)
-    )'''
-                    bill = '''CREATE TABLE "BillRecord" (
+    )"""
+                    bill = """CREATE TABLE "BillRecord" (
         "bill_id"	INTEGER NOT NULL UNIQUE,
         "Name"	TEXT NOT NULL,
         "Cate"	TEXT NOT NULL,
@@ -677,7 +679,7 @@ class NewStorage(QDialog, Ui_NewStorage):
         "Description"	TEXT,
         "Period"	TEXT NOT NULL,
         PRIMARY KEY("bill_id" AUTOINCREMENT)
-    )'''
+    )"""
                     cur.execute(person)
                     cur.execute(cate)
                     cur.execute(owe)
@@ -705,16 +707,14 @@ class NewStorage(QDialog, Ui_NewStorage):
                 b += 1
         if err != True:
             data = {}
-            data['RecordType'] = RecordType
-            data['sqlite'] = {
-                "FileName": sql_filename
-            }
-            data['mongo'] = {
+            data["RecordType"] = RecordType
+            data["sqlite"] = {"FileName": sql_filename}
+            data["mongo"] = {
                 "DBName": mongo_dbname,
                 "ServerIP": mongo_ip,
                 "Username": mongo_uname,
                 "Password": mongo_pass,
-                "Port": mongo_port
+                "Port": mongo_port,
             }
             saveconfig = Conf(data)
             result = saveconfig.Save_config()
@@ -723,11 +723,11 @@ class NewStorage(QDialog, Ui_NewStorage):
             return False
 
     def ShowError(self):
-        self.box.setText('*Filed Cannot Be Empty')
+        self.box.setText("*Filed Cannot Be Empty")
         self.box.setStyleSheet("color : red")
 
     def CleanError(self):
-        self.box.setText('')
+        self.box.setText("")
 
     def SaveConfig(self):
         result = self.GetConfig()
@@ -749,14 +749,16 @@ class TryConnect:
         self.port = port
 
     def connect_mongo(self):
-        if self.port == '':
-            self.port = '27017'
+        if self.port == "":
+            self.port = "27017"
         try:
             if self.username is not None:
                 mongo_client = MongoClient(self.fnameorip, int(self.port))
             else:
                 mongo_client = MongoClient(
-                    'mongodb://%s:%s@%s:%s' % (self.username, self.password, self.fnameorip, self.port))
+                    "mongodb://%s:%s@%s:%s"
+                    % (self.username, self.password, self.fnameorip, self.port)
+                )
             dbnames = mongo_client.database_names()
             if self.dbname in dbnames:
                 return True
@@ -784,13 +786,13 @@ def main():
         if is_exist:
             # Get Configuration from file
             data = confdata.Get_config()
-            storageT = data['RecordType']
+            storageT = data["RecordType"]
             # If configuration file valid
             try:
                 # Get Sqlite configuration
                 if storageT == "sqlite":
                     # Test Connection
-                    testconnect = TryConnect('', data['sqlite']['FileName'])
+                    testconnect = TryConnect("", data["sqlite"]["FileName"])
                     result = testconnect.connect_sqlite()
                     # If Connection Sucessful
                     if result:
@@ -799,14 +801,19 @@ def main():
                         myWin.show()
 
                     else:
-                        msg = 'Something wrong with the open sqlite Database File'
-                        x = PopupWindows('Critical', msg)
+                        msg = "Something wrong with the open sqlite Database File"
+                        x = PopupWindows("Critical", msg)
                     i = 0
                 # Get Mongo Configuration
                 elif storageT == "mongo":
                     # Test Connection
-                    testconnect = TryConnect(data['mongo']['DBName'], data['mongo']
-                                             ['ServerIP'], data['mongo']['Username'], data['mongo']['Password'], data['mongo']['Port'])
+                    testconnect = TryConnect(
+                        data["mongo"]["DBName"],
+                        data["mongo"]["ServerIP"],
+                        data["mongo"]["Username"],
+                        data["mongo"]["Password"],
+                        data["mongo"]["Port"],
+                    )
                     result = testconnect.connect_mongo()
                     if result:
                         splash = SplashPanel()
@@ -817,14 +824,14 @@ def main():
                         splash.deleteLater()
 
                     else:
-                        msg = 'Something wrong with the mongo connection'
-                        x = PopupWindows('Critical', msg)
+                        msg = "Something wrong with the mongo connection"
+                        x = PopupWindows("Critical", msg)
                     i = 0
                 # If Storage type is None by accident
                 else:
                     # Show EArror
-                    msg = 'configuration FIle Wrong'
-                    x = PopupWindows('Critical', msg)
+                    msg = "configuration FIle Wrong"
+                    x = PopupWindows("Critical", msg)
 
                     # display create storage page
                     newstorage = NewStorage()
@@ -833,13 +840,9 @@ def main():
             # If configuration file Not valid
             except Exception as e:
                 err = str(e)
-                x = PopupWindows('Critical', err)
-                splash = SplashPanel()
-                app.processEvents()
+                x = PopupWindows("Critical", err)
                 newstorage = NewStorage()
                 newstorage.show()
-                splash.finish(myWin)
-                splash.deleteLater()
                 i = newstorage.exec_()
         # If Configuration file not exist
         else:
@@ -847,7 +850,7 @@ def main():
             app.processEvents()
             newstorage = NewStorage()
             newstorage.show()
-            splash.finish(myWin)
+            splash.finish(newstorage)
             splash.deleteLater()
             i = newstorage.exec_()
 
