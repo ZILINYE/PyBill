@@ -105,5 +105,35 @@ class Calculator:
                         list2v[y] = -t
                         self.solutionList.append([list1k[i],list2k[y],str(list1v[i])])
                         break
+        i = 0
+        while i < len(self.solutionList):
+            y = i + 1 
+            while y < len(self.solutionList):
+                if self.solutionList[i][0]== self.solutionList[y][0] and self.solutionList[i][1] == self.solutionList[y][1]  :
+                    total = float(self.solutionList[i][2])+float(self.solutionList[y][2])
+                    owe = self.solutionList[i][0]
+                    borrow = self.solutionList[i][1]
+                    
+                    self.solutionList[i][2] = str(total)
+                    del self.solutionList[y]
+                elif self.solutionList[i][0]== self.solutionList[y][1] and self.solutionList[i][1] == self.solutionList[y][0]  :
+                    new = float(self.solutionList[i][2])-float(self.solutionList[y][2])
+                    if new > 0:
+                        self.solutionList[i][2] = str(new)
+                    elif new < 0:
+                        self.solutionList[i][0] = self.solutionList[y][1]
+                        self.solutionList[i][1] = self.solutionList[y][0]
+                        self.solutionList[i][2] = str(-new)
+                    else:
+                        del self.solutionList[i]
+                        y -= 1
+                    
+                    del self.solutionList[y]
+                else:
+                    y+=1
+
+                
+            i+=1
+        
     def returnData(self):
         return self.total_cost,self.avagcost,self.allpersonCost,self.cateCost,self.solutionList

@@ -22,6 +22,7 @@ from View.PyBill import Ui_MainWindow
 from View.dialog_edit import Ui_Dialog
 from View.addowe import Add_owe
 from View.Report import Report_Ui
+
 from View.ErrorDisplay import ErrorMsg
 from calculate import Calculator
 
