@@ -13,7 +13,8 @@ from PyQt5.QtWidgets import (
     QInputDialog,
     QDateEdit,
     QDateTimeEdit,
-    QDialog
+    QDialog,
+    QFileDialog
 
 )
 
@@ -429,17 +430,17 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
 
     # Retrive Data from DB
     def GetRow(self):
-        
+
         person = Storage('Person', self.person_dialog)
         cate = Storage('Category', self.cate_dialog)
         record = Storage('BillRecord', savelist=None,
                          select_period=self.select_period)
 
         record1 = record.Record_Ui()
-    
+
         person1 = person.Selec_Ui()
         cate1 = cate.Selec_Ui()
- 
+
         self.ListRow(record1, person1, cate1)
 
     # Add New Row
@@ -528,6 +529,20 @@ class NewStorage(QDialog, Ui_NewStorage):
         self.setupUi(self)
         self.Save.clicked.connect(self.SaveConfig)
         self.cancel.clicked.connect(self.Cancel)
+        self.db_button_open.clicked.connect(self.ChooseDB)
+        self.db_button_new.clicked.connect(self.CreateDB)
+
+    def CreateDB(self):
+        creator = QFileDialog()
+        filename = creator.getSaveFileName(filter="*.db *.sqlite *.sqlite3 *.db3")
+        self.sql_filename.setText(filename[0])
+        # print(creator.getSaveFileName(filter="*.db *.sqlite *.sqlite3 *.db3"))
+    def ChooseDB(self):
+        select = QFileDialog()
+        filename = select.getOpenFileName(filter="*.db *.sqlite *.sqlite3 *.db3")
+        self.sql_filename.setText(filename[0])
+        # print(select.getOpenFileName(filter="*.db *.sqlite *.sqlite3 *.db3"))
+        # self.db_select.setText(QFileDialog.getOpenFileName)
 
     def GetConfig(self):
         sql_filename = ''
@@ -540,21 +555,15 @@ class NewStorage(QDialog, Ui_NewStorage):
         if (self.sqlite.isChecked()):
             RecordType = "sqlite"
             sql_filename = self.sql_filename.toPlainText()
-            sql_dbname = self.sql_dbname.toPlainText()
 
-            checklist = [sql_filename, sql_dbname]
-            boxlist = [self.Sql_err0, self.Sql_err1]
-            b = 0
-            for item in checklist:
+            if len(sql_filename) == 0:
+                self.box = boxlist[b]
+                self.ShowError()
+                err = True
+            else:
+                self.box = self.Sql_err0
+                self.CleanError()
 
-                if len(item) == 0:
-                    self.box = boxlist[b]
-                    self.ShowError()
-                    err = True
-                else:
-                    self.box = boxlist[b]
-                    self.CleanError()
-                b += 1
             if err != True:
                 try:
                     conn = sqlite3.connect(sql_filename+'.db')
@@ -617,7 +626,6 @@ class NewStorage(QDialog, Ui_NewStorage):
             data = {}
             data['RecordType'] = RecordType
             data['sqlite'] = {
-                "DBName": sql_dbname,
                 "FileName": sql_filename+'.db'
             }
             data['mongo'] = {
@@ -687,7 +695,7 @@ if __name__ == "__main__":
             try:
                 if storageT == "sqlite":
                     testconnect = TryConnect(
-                        data['sqlite']['DBName'], data['sqlite']['FileName'])
+                        None, data['sqlite']['FileName'])
                     result = testconnect.connect_sqlite()
 
                     if result:
