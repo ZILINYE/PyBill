@@ -92,18 +92,18 @@ class Calculator:
                     t = list1v[i]  - list2v[y]
                     if t > 0:
                         list1v[i] = t
-                        self.solutionList.append([list1k[i],list2k[y],str(list2v[y])])                               
+                        self.solutionList.append([list1k[i],list2k[y],str(round(list2v[y],1))])                               
                         list2v[y] = 0
 
                     elif t == 0:
-                        self.solutionList.append([list1k[i],list2k[y],str(list2v[y])])
+                        self.solutionList.append([list1k[i],list2k[y],str(round(list2v[y],1))])
                         list2v[y] = 0
                         break
-
+ 
                     
                     else:
                         list2v[y] = -t
-                        self.solutionList.append([list1k[i],list2k[y],str(list1v[i])])
+                        self.solutionList.append([list1k[i],list2k[y],str(round(list1v[i],1))])
                         break
         i = 0
         while i < len(self.solutionList):
@@ -136,4 +136,4 @@ class Calculator:
             i+=1
         
     def returnData(self):
-        return self.total_cost,self.avagcost,self.allpersonCost,self.cateCost,self.solutionList
+        return self.total_cost,round(self.avagcost,2),self.allpersonCost,self.cateCost,self.solutionList

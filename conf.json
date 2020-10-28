@@ -1,0 +1,13 @@
+{
+    "RecordType": "mongo",
+    "sqlite": {
+        "DBName": "",
+        "FileName": ""
+    },
+    "mongo": {
+        "DBName": "pybill",
+        "ServerIP": "192.168.2.60",
+        "Username": "",
+        "Password": ""
+    }
+}
