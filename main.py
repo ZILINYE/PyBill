@@ -699,7 +699,7 @@ if __name__ == "__main__":
                     result = testconnect.connect_sqlite()
 
                     if result:
-                        print('enter correct')
+ 
                         myWin = MyMainForm()
                         myWin.show()
                     else:
