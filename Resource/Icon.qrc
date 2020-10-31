@@ -1,0 +1,17 @@
+<RCC>
+  <qresource prefix="icon">
+    <file>../Icon/Add.png</file>
+    <file>../Icon/Previous.png</file>
+    <file>../Icon/Remove.png</file>
+    <file>../Icon/calculator.png</file>
+    <file>../Icon/Category.png</file>
+    <file>../Icon/Forward.png</file>
+    <file>../Icon/icons8-new-copy-32.png</file>
+    <file>../Icon/icons8-open-parcel-32.png</file>
+    <file>../Icon/icons8-save-32.png</file>
+    <file>../Icon/list.png</file>
+    <file>../Icon/money-flow.png</file>
+    <file>../Icon/Owe.png</file>
+    <file>../Icon/user (1).png</file>
+  </qresource>
+</RCC>

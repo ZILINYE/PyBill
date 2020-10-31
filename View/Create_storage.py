@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\View\Create_storage.ui'
+# Form implementation generated from reading ui file 'C:\Users\yezil\Desktop\Project\pybill\View\Create_storage.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.0
 #
@@ -118,32 +118,41 @@ class Ui_NewStorage(object):
         font.setPointSize(12)
         self.sql_filename.setFont(font)
         self.sql_filename.setObjectName("sql_filename")
-        self.mongo_ip_2 = QtWidgets.QLineEdit(NewStorage)
-        self.mongo_ip_2.setGeometry(QtCore.QRect(230, 240, 241, 31))
+        self.mongo_ip = QtWidgets.QLineEdit(NewStorage)
+        self.mongo_ip.setEnabled(False)
+        self.mongo_ip.setGeometry(QtCore.QRect(230, 240, 241, 31))
         font = QtGui.QFont()
         font.setPointSize(12)
-        self.mongo_ip_2.setFont(font)
-        self.mongo_ip_2.setObjectName("mongo_ip_2")
-        self.mongo_dbname_2 = QtWidgets.QLineEdit(NewStorage)
-        self.mongo_dbname_2.setGeometry(QtCore.QRect(230, 310, 241, 31))
+        self.mongo_ip.setFont(font)
+        self.mongo_ip.setObjectName("mongo_ip")
+        self.mongo_dbname = QtWidgets.QLineEdit(NewStorage)
+        self.mongo_dbname.setEnabled(False)
+        self.mongo_dbname.setGeometry(QtCore.QRect(230, 310, 241, 31))
         font = QtGui.QFont()
         font.setPointSize(12)
-        self.mongo_dbname_2.setFont(font)
-        self.mongo_dbname_2.setObjectName("mongo_dbname_2")
-        self.mongo_username_2 = QtWidgets.QLineEdit(NewStorage)
-        self.mongo_username_2.setGeometry(QtCore.QRect(230, 380, 241, 31))
+        self.mongo_dbname.setFont(font)
+        self.mongo_dbname.setObjectName("mongo_dbname")
+        self.mongo_username = QtWidgets.QLineEdit(NewStorage)
+        self.mongo_username.setEnabled(False)
+        self.mongo_username.setGeometry(QtCore.QRect(230, 380, 241, 31))
         font = QtGui.QFont()
         font.setPointSize(12)
-        self.mongo_username_2.setFont(font)
-        self.mongo_username_2.setObjectName("mongo_username_2")
-        self.mongo_password_2 = QtWidgets.QLineEdit(NewStorage)
-        self.mongo_password_2.setGeometry(QtCore.QRect(230, 440, 241, 31))
+        self.mongo_username.setFont(font)
+        self.mongo_username.setObjectName("mongo_username")
+        self.mongo_password = QtWidgets.QLineEdit(NewStorage)
+        self.mongo_password.setEnabled(False)
+        self.mongo_password.setGeometry(QtCore.QRect(230, 440, 241, 31))
         font = QtGui.QFont()
         font.setPointSize(12)
-        self.mongo_password_2.setFont(font)
-        self.mongo_password_2.setObjectName("mongo_password_2")
+        self.mongo_password.setFont(font)
+        self.mongo_password.setObjectName("mongo_password")
 
         self.retranslateUi(NewStorage)
+        self.sqlite.toggled['bool'].connect(self.mongo_dbname.setDisabled)
+        self.sqlite.toggled['bool'].connect(self.mongo_ip.setDisabled)
+        self.sqlite.toggled['bool'].connect(self.mongo_username.setDisabled)
+        self.sqlite.toggled['bool'].connect(self.mongo_password.setDisabled)
+        self.mongo.toggled['bool'].connect(self.sql_filename.setDisabled)
         QtCore.QMetaObject.connectSlotsByName(NewStorage)
 
     def retranslateUi(self, NewStorage):
@@ -163,13 +172,3 @@ class Ui_NewStorage(object):
         self.cancel.setText(_translate("NewStorage", "Cancel"))
         self.db_button_open.setText(_translate("NewStorage", "..."))
         self.db_button_new.setText(_translate("NewStorage", "+"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    NewStorage = QtWidgets.QDialog()
-    ui = Ui_NewStorage()
-    ui.setupUi(NewStorage)
-    NewStorage.show()
-    sys.exit(app.exec_())

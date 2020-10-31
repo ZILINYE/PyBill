@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QRadioButton" name="sqlite">
    <property name="geometry">
     <rect>
@@ -347,7 +350,10 @@
     </font>
    </property>
   </widget>
-  <widget class="QLineEdit" name="mongo_ip_2">
+  <widget class="QLineEdit" name="mongo_ip">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>230</x>
@@ -362,7 +368,10 @@
     </font>
    </property>
   </widget>
-  <widget class="QLineEdit" name="mongo_dbname_2">
+  <widget class="QLineEdit" name="mongo_dbname">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>230</x>
@@ -377,7 +386,10 @@
     </font>
    </property>
   </widget>
-  <widget class="QLineEdit" name="mongo_username_2">
+  <widget class="QLineEdit" name="mongo_username">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>230</x>
@@ -392,7 +404,10 @@
     </font>
    </property>
   </widget>
-  <widget class="QLineEdit" name="mongo_password_2">
+  <widget class="QLineEdit" name="mongo_password">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>230</x>
@@ -409,5 +424,86 @@
   </widget>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>sqlite</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>mongo_dbname</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>87</x>
+     <y>109</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>350</x>
+     <y>325</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sqlite</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>mongo_ip</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>87</x>
+     <y>109</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>350</x>
+     <y>255</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sqlite</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>mongo_username</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>87</x>
+     <y>109</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>350</x>
+     <y>395</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sqlite</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>mongo_password</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>87</x>
+     <y>109</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>350</x>
+     <y>455</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>mongo</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>sql_filename</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>87</x>
+     <y>214</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>350</x>
+     <y>156</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

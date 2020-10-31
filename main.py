@@ -1,4 +1,5 @@
 import sys
+import time
 from time import strftime
 import json
 import calendar
@@ -19,7 +20,7 @@ from PyQt5.QtWidgets import (
 )
 
 
-from PyQt5.QtCore import QDateTime, QDate, Qt
+from PyQt5.QtCore import QDateTime, QDate, Qt,QEvent
 from PyQt5.QtChart import QChart, QChartView, QPieSeries, QPieSlice
 from PyQt5.QtGui import QPainter, QPen
 from PyQt5 import QtCore
@@ -30,12 +31,17 @@ from View.dialog_edit import Ui_Dialog
 from View.addowe import Add_owe
 from View.Report import Report_Ui
 from View.Create_storage import Ui_NewStorage
-from View.ErrorDisplay import ErrorMsg
+from View.ErrorDisplay import Ui_ErrorMsg
 
 from datachan import Storage
 from loadconf import Conf
 from calculate import Calculator
 
+# Ignore mouse wheel event on ComboBox
+class CustomQCB(QComboBox):
+    def wheelEvent(self,e):
+        if e.type() == QEvent.Wheel:
+            e.ignore()
 
 class EditDialog(QMainWindow, Ui_Dialog):
     def __init__(self, dialog):
@@ -189,9 +195,14 @@ class EditOweDialog(QMainWindow, Add_owe):
                     else:
                         datebox = QDateEdit()
                         date = QDate()
-                        yy = int(data.split('-')[0])
-                        mm = int(data.split('-')[1])
-                        dd = int(data.split('-')[2])
+                        try:
+                            yy = int(data.split('/')[0])
+                            mm = int(data.split('/')[1])
+                            dd = int(data.split('/')[2])
+                        except:
+                            yy = int(data.split('-')[0])
+                            mm = int(data.split('-')[1])
+                            dd = int(data.split('-')[2])
                         date.setDate(yy, mm, dd)
                         datebox.setDate(date)
 
@@ -308,14 +319,46 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
         self.PreviousMonth.clicked.connect(self.monthChangePrevious)
         self.addRow.clicked.connect(self.AddRow)
         self.delRow.clicked.connect(self.DelRow)
-        self.save_change.clicked.connect(self.SaveChange)
-        self.Calculate.clicked.connect(self.GetReport)
-        self.edit_person.clicked.connect(self.person_window)
-        self.edit_cate.clicked.connect(self.cate_window)
-        self.edit_owe.clicked.connect(self.owe_window)
+
+        # Tools Bar
+        self.save_change.triggered.connect(self.SaveChange)
+        self.Calculate.triggered.connect(self.GetReport)
+        self.edit_person.triggered.connect(self.person_window)
+        self.edit_cate.triggered.connect(self.cate_window)
+        self.edit_owe.triggered.connect(self.owe_window)
+        self.OpenNew.triggered.connect(self.Open_New)
 
         # Exit Program
         self.exit.clicked.connect(self.close)
+
+    def Open_New(self):
+
+        self.dialog = NewStorage()
+
+        self.dialog.show()
+        i = self.dialog.exec_()
+
+        if i == 1:
+
+            self.close()
+            self.__init__()
+            self.show()
+        else:
+            x = ErrShow('Could not open file or cannot connect to database')
+            x.show()
+
+    def Add_New(self):
+
+        self.dialog = NewStorage()
+        self.dialog.show()
+        i = self.dialog.exec_()
+        if i == 1:
+            self.close()
+            self.__init__()
+            self.show()
+        else:
+            x = ErrShow('Could not open file or cannot connect to database')
+            x.show()
 
     def GetReport(self):
         x = Calculator(self.select_period)
@@ -382,20 +425,23 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
         rowcount = len(data)
         self.tableWidget.setRowCount(rowcount)
         self.tableWidget.setColumnCount(5)
-        print('works')
+
         for row_number, row_data in enumerate(data):
             for column_number, data in enumerate(row_data):
                 if column_number < 3:
                     if column_number == 0:
-                        personbox = QComboBox()
+                        personbox = CustomQCB()
+                        
                         personbox.addItems(person)
                         personbox.setCurrentText(str(data))
                         self.tableWidget.setCellWidget(
                             row_number, column_number, personbox
                         )
+                        
                     elif column_number == 1:
 
-                        catebox = QComboBox()
+                        catebox = CustomQCB()
+                        
                         catebox.addItems(cate)
                         catebox.setCurrentText(str(data))
                         self.tableWidget.setCellWidget(
@@ -422,6 +468,7 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
                         self.tableWidget.setCellWidget(
                             row_number, column_number, datebox
                         )
+                        
 
                 else:
                     self.tableWidget.setItem(
@@ -513,13 +560,14 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
     # def DiscardChange(self):
 
 
-class ErrShow(QMainWindow, ErrorMsg):
+class ErrShow(QDialog, Ui_ErrorMsg):
     def __init__(self, ErrMsg):
+
         super(ErrShow, self).__init__()
         self.setupUi(self)
 
         self.ErrorShow.setText(ErrMsg)
-        self.setWindowTitle('Error')
+        self.setWindowTitle('Notification')
         self.ErrorShow.setAlignment(Qt.AlignCenter)
 
 
@@ -527,6 +575,7 @@ class NewStorage(QDialog, Ui_NewStorage):
     def __init__(self, parent=None):
         super(NewStorage, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowTitle("Choose Storage")
         self.Save.clicked.connect(self.SaveConfig)
         self.cancel.clicked.connect(self.Cancel)
         self.db_button_open.clicked.connect(self.ChooseDB)
@@ -534,19 +583,18 @@ class NewStorage(QDialog, Ui_NewStorage):
 
     def CreateDB(self):
         creator = QFileDialog()
-        filename = creator.getSaveFileName(filter="*.db *.sqlite *.sqlite3 *.db3")
+        filename = creator.getSaveFileName(
+            filter="*.db *.sqlite *.sqlite3 *.db3")
         self.sql_filename.setText(filename[0])
-        # print(creator.getSaveFileName(filter="*.db *.sqlite *.sqlite3 *.db3"))
+
     def ChooseDB(self):
         select = QFileDialog()
-        filename = select.getOpenFileName(filter="*.db *.sqlite *.sqlite3 *.db3")
+        filename = select.getOpenFileName(
+            filter="*.db *.sqlite *.sqlite3 *.db3")
         self.sql_filename.setText(filename[0])
-        # print(select.getOpenFileName(filter="*.db *.sqlite *.sqlite3 *.db3"))
-        # self.db_select.setText(QFileDialog.getOpenFileName)
 
     def GetConfig(self):
         sql_filename = ''
-        sql_dbname = ''
         mongo_ip = ''
         mongo_uname = ''
         mongo_pass = ''
@@ -554,10 +602,10 @@ class NewStorage(QDialog, Ui_NewStorage):
         err = False
         if (self.sqlite.isChecked()):
             RecordType = "sqlite"
-            sql_filename = self.sql_filename.toPlainText()
+            sql_filename = self.sql_filename.text()
 
             if len(sql_filename) == 0:
-                self.box = boxlist[b]
+                self.box = self.Sql_err1
                 self.ShowError()
                 err = True
             else:
@@ -566,7 +614,7 @@ class NewStorage(QDialog, Ui_NewStorage):
 
             if err != True:
                 try:
-                    conn = sqlite3.connect(sql_filename+'.db')
+                    conn = sqlite3.connect(sql_filename)
                     cur = conn.cursor()
                     person = '''CREATE TABLE "Person" (
             "person_id"	INTEGER NOT NULL UNIQUE,
@@ -606,10 +654,10 @@ class NewStorage(QDialog, Ui_NewStorage):
                     pass
         else:
             RecordType = "mongo"
-            mongo_ip = self.mongo_ip.toPlainText()
-            mongo_uname = self.mongo_username.toPlainText()
-            mongo_pass = self.mongo_password.toPlainText()
-            mongo_dbname = self.mongo_dbname.toPlainText()
+            mongo_ip = self.mongo_ip.text()
+            mongo_uname = self.mongo_username.text()
+            mongo_pass = self.mongo_password.text()
+            mongo_dbname = self.mongo_dbname.text()
             checklist = [mongo_ip, mongo_dbname]
             boxlist = [self.Mongo_err0, self.Mongo_err1]
             b = 0
@@ -626,7 +674,7 @@ class NewStorage(QDialog, Ui_NewStorage):
             data = {}
             data['RecordType'] = RecordType
             data['sqlite'] = {
-                "FileName": sql_filename+'.db'
+                "FileName": sql_filename
             }
             data['mongo'] = {
                 "DBName": mongo_dbname,
@@ -678,32 +726,35 @@ class TryConnect:
 
     def connect_sqlite(self):
         try:
+
             sqlite3.connect(self.fnameorip)
             return True
         except:
             return False
 
 
-if __name__ == "__main__":
+def main():
     app = QApplication(sys.argv)
-    confdata = Conf()
     i = 1
     while i == 1:
-        if confdata.Check_file():
+        confdata = Conf()
+        is_exist = confdata.Check_file()
+        if is_exist:
             data = confdata.Get_config()
             storageT = data['RecordType']
             try:
                 if storageT == "sqlite":
-                    testconnect = TryConnect(
-                        None, data['sqlite']['FileName'])
+                    testconnect = TryConnect('', data['sqlite']['FileName'])
                     result = testconnect.connect_sqlite()
-
                     if result:
- 
                         myWin = MyMainForm()
                         myWin.show()
+                        i = 0
                     else:
-                        print('Something wrong with the Database File')
+                        x = ErrShow(
+                            'Something wrong with the open sqlite Database File')
+                        x.show()
+                        x.exec_()
                 elif storageT == "mongo":
                     testconnect = TryConnect(data['mongo']['DBName'], data['mongo']
                                              ['ServerIP'], data['mongo']['Username'], data['mongo']['Password'])
@@ -711,15 +762,38 @@ if __name__ == "__main__":
                     if result:
                         myWin = MyMainForm()
                         myWin.show()
+                        i = 0
                     else:
-                        print('Something wrong with the mongo connection')
-            except Exception as e:
-                print(e)
-            finally:
-                i = 0
+                        x = ErrShow(
+                            'Something wrong with the mongo connection')
+                        x.show()
+                        x.exec_()
 
+                else:
+                    x = ErrShow('configuration FIle Wrong')
+                    x.show()
+                    x.exec_()
+
+                    newstorage = NewStorage()
+                    newstorage.show()
+                    i = newstorage.exec_()
+
+            except Exception as e:
+                err = str(e)
+                x = ErrShow(err)
+                x.show()
+                newstorage = NewStorage()
+                newstorage.show()
+                i = newstorage.exec_()
         else:
+
             newstorage = NewStorage()
             newstorage.show()
             i = newstorage.exec_()
+            print(i)
+
     sys.exit(app.exec_())
+
+
+if __name__ == "__main__":
+    main()

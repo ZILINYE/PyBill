@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'View\ErrorDisplay.ui'
+# Form implementation generated from reading ui file '.\View\ErrorDisplay.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.0
 #
@@ -11,7 +11,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class ErrorMsg(object):
+class Ui_ErrorMsg(object):
     def setupUi(self, ErrorMsg):
         ErrorMsg.setObjectName("ErrorMsg")
         ErrorMsg.resize(400, 300)
@@ -23,7 +23,7 @@ class ErrorMsg(object):
         ErrorMsg.setMinimumSize(QtCore.QSize(400, 300))
         ErrorMsg.setMaximumSize(QtCore.QSize(400, 300))
         self.ErrorShow = QtWidgets.QTextBrowser(ErrorMsg)
-        self.ErrorShow.setGeometry(QtCore.QRect(0, 0, 401, 301))
+        self.ErrorShow.setGeometry(QtCore.QRect(0, 90, 401, 91))
         self.ErrorShow.setObjectName("ErrorShow")
 
         self.retranslateUi(ErrorMsg)

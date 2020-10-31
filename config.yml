@@ -1,0 +1,16 @@
+ioPaths:
+
+  -
+    - "Resource/Icon.qrc"
+    - "View/resource.py"
+  -
+    - "View/PyBill.ui"
+    - "View/PyBill.py"
+  # -
+  #   - "View/Create_storage.ui"
+  #   - "View/Create_storage.py"
+
+
+uic_options: --from-imports
+init_package: False
+force: True

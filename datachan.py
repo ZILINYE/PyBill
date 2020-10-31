@@ -13,7 +13,7 @@ class MakeConnection:
         username = data['mongo']['Username']
         password = data['mongo']['Password']
         sql_file = data['sqlite']['FileName']
-        sql_db = data['sqlite']['DBName']
+      
  
         try:
             if stype == 'sqlite':
@@ -113,6 +113,7 @@ class Sqlite(MakeConnection,metaclass = ABCMeta):
         self.tablelist = {'Category': 'Category(cate_id,cate_name)', 'Person': 'Person(person_id,person_name)',
                           'OweRecord': 'OweRecord(owe_id,Name,Cate,Date,Spend,Description,Period)', 'BillRecord': 'BillRecord(bill_id,Name,Cate,Date,Spend,Description,Period)'}
         self.tablelistUi = {'Category':'cate_name','Person':'person_name'}
+    
 
     def Ui_Selec_Sql(self):
         formatted = list(map(lambda x: (None, x), self.savelist))
@@ -159,7 +160,6 @@ class Sqlite(MakeConnection,metaclass = ABCMeta):
 
 
     def Sql_Record_Ui(self):
-        print(self.select_period)
 
         mongodata = self.cur.execute("SELECT * FROM "+self.table+" WHERE Period = '"+self.select_period+"' ") 
 
