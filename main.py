@@ -20,7 +20,7 @@ from PyQt5.QtWidgets import (
 )
 
 
-from PyQt5.QtCore import QDateTime, QDate, Qt,QEvent
+from PyQt5.QtCore import QDateTime, QDate, Qt, QEvent
 from PyQt5.QtChart import QChart, QChartView, QPieSeries, QPieSlice
 from PyQt5.QtGui import QPainter, QPen
 from PyQt5 import QtCore
@@ -32,16 +32,20 @@ from View.addowe import Add_owe
 from View.Report import Report_Ui
 from View.Create_storage import Ui_NewStorage
 from View.ErrorDisplay import Ui_ErrorMsg
+from View.SucessDisplay import Ui_SucessMsg
 
 from datachan import Storage
 from loadconf import Conf
 from calculate import Calculator
 
 # Ignore mouse wheel event on ComboBox
+
+
 class CustomQCB(QComboBox):
-    def wheelEvent(self,e):
+    def wheelEvent(self, e):
         if e.type() == QEvent.Wheel:
             e.ignore()
+
 
 class EditDialog(QMainWindow, Ui_Dialog):
     def __init__(self, dialog):
@@ -100,6 +104,11 @@ class EditDialog(QMainWindow, Ui_Dialog):
 
         connection = Storage(self.dialog_title, save_list)
         data = connection.Selec_DB()
+
+        msg = "Sucessfully Saved !"
+        s = SuShow(msg)
+        s.exec_()
+
         self.close()
 
 
@@ -174,6 +183,9 @@ class EditOweDialog(QMainWindow, Add_owe):
 
         record = Storage('OweRecord', new_list, self.select_period)
         record1 = record.Record_DB()
+        msg = "Sucessfully Saved !"
+        s = SuShow(msg)
+        s.exec_()
         self.close()
 
     def GetOwe(self):
@@ -431,17 +443,17 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
                 if column_number < 3:
                     if column_number == 0:
                         personbox = CustomQCB()
-                        
+
                         personbox.addItems(person)
                         personbox.setCurrentText(str(data))
                         self.tableWidget.setCellWidget(
                             row_number, column_number, personbox
                         )
-                        
+
                     elif column_number == 1:
 
                         catebox = CustomQCB()
-                        
+
                         catebox.addItems(cate)
                         catebox.setCurrentText(str(data))
                         self.tableWidget.setCellWidget(
@@ -468,7 +480,6 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
                         self.tableWidget.setCellWidget(
                             row_number, column_number, datebox
                         )
-                        
 
                 else:
                     self.tableWidget.setItem(
@@ -549,15 +560,17 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
                     row_item.append(item)
                 new_list.append(row_item)
         except ValueError:
+
             msg = "Cost can only be Integer or Float!"
-            self.dialog = ErrShow(msg)
-            self.dialog.show()
+            errorshow = ErrShow(msg)
+            errorshow.exec_()
 
         else:
             record = Storage('BillRecord', new_list, self.select_period)
             record1 = record.Record_DB()
-
-    # def DiscardChange(self):
+            msg = "Sucessfully Saved !"
+            s = SuShow(msg)
+            s.exec_()
 
 
 class ErrShow(QDialog, Ui_ErrorMsg):
@@ -565,10 +578,20 @@ class ErrShow(QDialog, Ui_ErrorMsg):
 
         super(ErrShow, self).__init__()
         self.setupUi(self)
-
         self.ErrorShow.setText(ErrMsg)
-        self.setWindowTitle('Notification')
+        self.setWindowTitle('Error')
         self.ErrorShow.setAlignment(Qt.AlignCenter)
+        self.show()
+
+
+class SuShow(QDialog, Ui_SucessMsg):
+    def __init__(self, SuMsg):
+
+        super(SuShow, self).__init__()
+        self.setupUi(self)
+        self.SucessShow.setText(SuMsg)
+        self.setWindowTitle('Sucess')
+        self.show()
 
 
 class NewStorage(QDialog, Ui_NewStorage):
@@ -753,7 +776,6 @@ def main():
                     else:
                         x = ErrShow(
                             'Something wrong with the open sqlite Database File')
-                        x.show()
                         x.exec_()
                 elif storageT == "mongo":
                     testconnect = TryConnect(data['mongo']['DBName'], data['mongo']
@@ -766,12 +788,10 @@ def main():
                     else:
                         x = ErrShow(
                             'Something wrong with the mongo connection')
-                        x.show()
                         x.exec_()
 
                 else:
                     x = ErrShow('configuration FIle Wrong')
-                    x.show()
                     x.exec_()
 
                     newstorage = NewStorage()
@@ -790,7 +810,6 @@ def main():
             newstorage = NewStorage()
             newstorage.show()
             i = newstorage.exec_()
-            print(i)
 
     sys.exit(app.exec_())
 
