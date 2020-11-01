@@ -1,1 +1,1 @@
-{"RecordType": "sqlite", "sqlite": {"FileName": "C:/Users/yezil/Desktop/Project/pybill/test.db"}, "mongo": {"DBName": "", "ServerIP": "", "Username": "", "Password": ""}}
+{"RecordType": "mongo", "sqlite": {"FileName": ""}, "mongo": {"DBName": "pybill", "ServerIP": "192.168.2.60", "Username": "", "Password": ""}}
