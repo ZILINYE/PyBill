@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\yezil\Desktop\Project\pybill\View\PyBill.ui'
+# Form implementation generated from reading ui file 'C:\Users\yezil\Desktop\Project\pybill\Ui\PyBill.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.0
 #
@@ -93,7 +93,9 @@ class Ui_MainWindow(object):
         self.Month.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.Month.setObjectName("Month")
         self.PreviousMonth = QtWidgets.QPushButton(self.centralwidget)
-        self.PreviousMonth.setGeometry(QtCore.QRect(32, 10, 151, 32))
+        self.PreviousMonth.setGeometry(QtCore.QRect(92, 10, 91, 29))
+        self.PreviousMonth.setMinimumSize(QtCore.QSize(91, 29))
+        self.PreviousMonth.setMaximumSize(QtCore.QSize(91, 29))
         self.PreviousMonth.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.PreviousMonth.setStyleSheet("background-color: rgb(85, 255, 255);")
         self.PreviousMonth.setText("")
@@ -102,7 +104,9 @@ class Ui_MainWindow(object):
         self.PreviousMonth.setIcon(icon)
         self.PreviousMonth.setObjectName("PreviousMonth")
         self.NextMonth = QtWidgets.QPushButton(self.centralwidget)
-        self.NextMonth.setGeometry(QtCore.QRect(470, 10, 161, 29))
+        self.NextMonth.setGeometry(QtCore.QRect(470, 10, 91, 29))
+        self.NextMonth.setMinimumSize(QtCore.QSize(91, 29))
+        self.NextMonth.setMaximumSize(QtCore.QSize(91, 29))
         self.NextMonth.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.NextMonth.setStyleSheet("background-color: rgb(0, 255, 255);")
         self.NextMonth.setText("")

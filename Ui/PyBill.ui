@@ -192,11 +192,23 @@
    <widget class="QPushButton" name="PreviousMonth">
     <property name="geometry">
      <rect>
-      <x>32</x>
+      <x>92</x>
       <y>10</y>
-      <width>151</width>
-      <height>32</height>
+      <width>91</width>
+      <height>29</height>
      </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>91</width>
+      <height>29</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>91</width>
+      <height>29</height>
+     </size>
     </property>
     <property name="toolTip">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Previous Month&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -220,9 +232,21 @@
      <rect>
       <x>470</x>
       <y>10</y>
-      <width>161</width>
+      <width>91</width>
       <height>29</height>
      </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>91</width>
+      <height>29</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>91</width>
+      <height>29</height>
+     </size>
     </property>
     <property name="toolTip">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Next Month&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>

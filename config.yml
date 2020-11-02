@@ -3,15 +3,15 @@ ioPaths:
   # -
   #   - "Resource/Icon.qrc"
   #   - "View/resource.py"
-  # -
-  #   - "View/PyBill.ui"
-  #   - "View/PyBill.py"
+  -
+    - "Ui/PyBill.ui"
+    - "View/PyBill.py"
   # -
   #   - "View/ErrorDisplay.ui"
   #   - "View/ErrorDisplay.py"
-  -
-    - "Ui/SucessDisplay.ui"
-    - "View/SucessDisplay.py"
+  # -
+  #   - "Ui/SucessDisplay.ui"
+  #   - "View/SucessDisplay.py"
   # -
   #   - "View/Create_storage.ui"
   #   - "View/Create_storage.py"
