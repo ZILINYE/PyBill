@@ -29,9 +29,6 @@ class MakeConnection:
         except:
             print("Cannot make connection with Database")
 
-        
-
-
 class Mongo(MakeConnection,metaclass = ABCMeta):
     def __init__(self, collectionname, savelist=None,select_period=None):
 
@@ -171,6 +168,7 @@ class Sqlite(MakeConnection,metaclass = ABCMeta):
             
             level2.append(level1)
         return level2
+
 class Storage(Mongo,Sqlite):
     def __init__(self,collectionname, savelist=None,select_period=None):
         config_data = Conf()

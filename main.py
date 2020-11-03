@@ -13,34 +13,28 @@ from PyQt5.QtWidgets import (
     QLineEdit,
     QInputDialog,
     QDateEdit,
-    QDateTimeEdit,
     QDialog,
-    QFileDialog
-
-)
-
-
-from PyQt5.QtCore import QDateTime, QDate, Qt, QEvent
+    QFileDialog)
+from PyQt5.QtCore import  QDate, Qt, QEvent
 from PyQt5.QtChart import QChart, QChartView, QPieSeries, QPieSlice
 from PyQt5.QtGui import QPainter, QPen
 from PyQt5 import QtCore
-from datetime import datetime
 
+# import UI
 from View.PyBill import Ui_MainWindow
-from View.dialog_edit import Ui_Dialog
-from View.addowe import Add_owe
-from View.Report import Report_Ui
+from View.Debt import Ui_DebtList
+from View.Report import Ui_Report
 from View.Create_storage import Ui_NewStorage
 from View.ErrorDisplay import Ui_ErrorMsg
 from View.SucessDisplay import Ui_SucessMsg
+from View.EditDialog import Ui_Dialog
 
+# import Function Script
 from datachan import Storage
 from loadconf import Conf
 from calculate import Calculator
 
 # Ignore mouse wheel event on ComboBox
-
-
 class CustomQCB(QComboBox):
     def wheelEvent(self, e):
         if e.type() == QEvent.Wheel:
@@ -112,7 +106,7 @@ class EditDialog(QMainWindow, Ui_Dialog):
         self.close()
 
 
-class EditOweDialog(QMainWindow, Add_owe):
+class EditOweDialog(QMainWindow, Ui_DebtList):
     def __init__(self, person_list, year, month, month_index, max_date, min_date):
         super(EditOweDialog, self).__init__()
         self.setupUi(self)
@@ -238,7 +232,7 @@ class EditOweDialog(QMainWindow, Add_owe):
         return connection
 
 
-class Report(QMainWindow, Report_Ui):
+class Report(QMainWindow, Ui_Report):
     def __init__(self, total_cost, avageCost, SpendByPerson, SpendByCate, SolutionList):
         super(Report, self).__init__()
         self.setupUi(self)
@@ -267,7 +261,7 @@ class Report(QMainWindow, Report_Ui):
             cost = list(self.SpendByPerson.values())[i]
             self.table2Widget.setItem(i, 0, QTableWidgetItem(str(name)))
             self.table2Widget.setItem(i, 1, QTableWidgetItem(str(cost)))
-        slist = list(x[0] + ' 欠 ' + x[1]+' : '+x[2] for x in self.SolutionList)
+        slist = list(x[0] + ' Should Transfer ' + x[1]+' : '+x[2] for x in self.SolutionList)
         self.list2Widget.addItems(slist)
 
     def SetChart(self):
@@ -757,19 +751,27 @@ class TryConnect:
 
 
 def main():
+    
     app = QApplication(sys.argv)
     i = 1
     while i == 1:
+        # Check If Configuraion file exist
         confdata = Conf()
         is_exist = confdata.Check_file()
         if is_exist:
+            # Get Configuration from file
             data = confdata.Get_config()
             storageT = data['RecordType']
+            # If configuration file valid
             try:
+                # Get Sqlite configuration
                 if storageT == "sqlite":
+                    # Test Connection 
                     testconnect = TryConnect('', data['sqlite']['FileName'])
                     result = testconnect.connect_sqlite()
+                    # If Connection Sucessful
                     if result:
+                        # Go to Main Page
                         myWin = MyMainForm()
                         myWin.show()
                         i = 0
@@ -777,7 +779,9 @@ def main():
                         x = ErrShow(
                             'Something wrong with the open sqlite Database File')
                         x.exec_()
+                # Get Mongo Configuration
                 elif storageT == "mongo":
+                    # Test Connection 
                     testconnect = TryConnect(data['mongo']['DBName'], data['mongo']
                                              ['ServerIP'], data['mongo']['Username'], data['mongo']['Password'])
                     result = testconnect.connect_mongo()
@@ -789,15 +793,16 @@ def main():
                         x = ErrShow(
                             'Something wrong with the mongo connection')
                         x.exec_()
-
+                # If Storage type is None by accident
                 else:
+                    # Show EArror
                     x = ErrShow('configuration FIle Wrong')
                     x.exec_()
-
+                    # display create storage page
                     newstorage = NewStorage()
                     newstorage.show()
                     i = newstorage.exec_()
-
+            # If configuration file Not valid
             except Exception as e:
                 err = str(e)
                 x = ErrShow(err)
@@ -805,6 +810,7 @@ def main():
                 newstorage = NewStorage()
                 newstorage.show()
                 i = newstorage.exec_()
+        # If Configuration file not exist
         else:
 
             newstorage = NewStorage()
@@ -815,4 +821,5 @@ def main():
 
 
 if __name__ == "__main__":
+    # Entry App
     main()

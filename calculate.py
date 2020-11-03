@@ -1,8 +1,6 @@
-# from pymongo import MongoClient
 from abc import abstractmethod, ABCMeta
 from loadconf import Conf
 from datachan import MakeConnection
-from View.Report import Report_Ui
 
 
 def CostSolution(owedata,allpersonCost,personlist):
@@ -158,7 +156,7 @@ class SqliteCalculate(MakeConnection):
 
         self.SGetPerCost()
 
-    def SBasicCalculate(self, filtername, valname):
+    def SBasicCalculate(self, filtername, valname) -> float:
         val =self.cur.execute("Select sum(Spend) from BillRecord WHERE Period ='"+self.selected_period+"' and "+filtername+" = '"+valname+"'").fetchall()  
 
         if val[0][0] != None:

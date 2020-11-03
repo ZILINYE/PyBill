@@ -1,22 +1,31 @@
 ioPaths:
 
-  # -
-  #   - "Resource/Icon.qrc"
-  #   - "View/resource.py"
+  -
+    - "Resource/Icon.qrc"
+    - "View/Icon_rc.py"
   -
     - "Ui/PyBill.ui"
     - "View/PyBill.py"
-  # -
-  #   - "View/ErrorDisplay.ui"
-  #   - "View/ErrorDisplay.py"
-  # -
-  #   - "Ui/SucessDisplay.ui"
-  #   - "View/SucessDisplay.py"
-  # -
-  #   - "View/Create_storage.ui"
-  #   - "View/Create_storage.py"
+  -
+    - "Ui/Report.ui"
+    - "View/Report.py"
+  -
+    - "Ui/EditDialog.ui"
+    - "View/EditDialog.py"
+  -
+    - "Ui/Debt.ui"
+    - "View/Debt.py"
+  -
+    - "Ui/SucessDisplay.ui"
+    - "View/SucessDisplay.py"
+  -
+    - "Ui/ErrorDisplay.ui"
+    - "View/ErrorDisplay.py"
+  -
+    - "Ui/Create_storage.ui"
+    - "View/Create_storage.py"
 
 
 uic_options: --from-imports
 init_package: False
-force: True
+force: False
