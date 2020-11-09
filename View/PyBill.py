@@ -53,20 +53,6 @@ class Ui_MainWindow(object):
         self.frame.setObjectName("frame")
         self.gridLayout_3 = QtWidgets.QGridLayout(self.frame)
         self.gridLayout_3.setObjectName("gridLayout_3")
-        self.Month = QtWidgets.QTextBrowser(self.frame)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.Month.sizePolicy().hasHeightForWidth())
-        self.Month.setSizePolicy(sizePolicy)
-        self.Month.setMaximumSize(QtCore.QSize(400, 16777215))
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        font.setPointSize(12)
-        self.Month.setFont(font)
-        self.Month.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.Month.setObjectName("Month")
-        self.gridLayout_3.addWidget(self.Month, 0, 1, 1, 1)
         self.NextMonth = QtWidgets.QPushButton(self.frame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -76,7 +62,44 @@ class Ui_MainWindow(object):
         self.NextMonth.setMinimumSize(QtCore.QSize(91, 29))
         self.NextMonth.setMaximumSize(QtCore.QSize(91, 29))
         self.NextMonth.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.NextMonth.setStyleSheet("background-color: rgb(0, 255, 255);")
+        self.NextMonth.setStyleSheet("QPushButton\n"
+"{\n"
+"    /*字体为微软雅黑*/\n"
+"    font-family:Microsoft Yahei;\n"
+"    /*字体大小为20点*/\n"
+"    font-size:20pt;\n"
+"    /*字体颜色为白色*/    \n"
+"    color:white;\n"
+"    /*背景颜色*/  \n"
+"    background-color:rgb(14 , 150 , 254);\n"
+"    /*边框圆角半径为8像素*/ \n"
+"    border-radius:8px;\n"
+"    border-color:black;\n"
+"    border-width:1px;\n"
+"    border-style:solid;\n"
+"\n"
+"}\n"
+"\n"
+"/*按钮停留态*/\n"
+"QPushButton:hover\n"
+"{\n"
+"    /*背景颜色*/  \n"
+"    background-color:rgb(44 , 137 , 255);\n"
+"}\n"
+"\n"
+"/*按钮按下态*/\n"
+"QPushButton:pressed\n"
+"{\n"
+"    /*背景颜色*/  \n"
+"    background-color:rgb(14 , 135 , 228);\n"
+"    /*左内边距为3像素，让按下时字向右移动3像素*/  \n"
+"    padding-left:3px;\n"
+"    /*上内边距为3像素，让按下时字向下移动3像素*/  \n"
+"    padding-top:3px;\n"
+"    border-color:grey;\n"
+"    border-width:1px;\n"
+"    border-style:solid;\n"
+"}")
         self.NextMonth.setText("")
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap(":/icon/Icon/Forward.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -92,13 +115,57 @@ class Ui_MainWindow(object):
         self.PreviousMonth.setMinimumSize(QtCore.QSize(91, 29))
         self.PreviousMonth.setMaximumSize(QtCore.QSize(91, 29))
         self.PreviousMonth.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.PreviousMonth.setStyleSheet("background-color: rgb(85, 255, 255);")
+        self.PreviousMonth.setStyleSheet("QPushButton\n"
+"{\n"
+"    /*字体为微软雅黑*/\n"
+"    font-family:Microsoft Yahei;\n"
+"    /*字体大小为20点*/\n"
+"    font-size:20pt;\n"
+"    /*字体颜色为白色*/    \n"
+"    color:white;\n"
+"    /*背景颜色*/  \n"
+"    background-color:rgb(14 , 150 , 254);\n"
+"    /*边框圆角半径为8像素*/ \n"
+"    border-radius:8px;\n"
+"    border-color:black;\n"
+"    border-width:1px;\n"
+"    border-style:solid;\n"
+"}\n"
+"\n"
+"/*按钮停留态*/\n"
+"QPushButton:hover\n"
+"{\n"
+"    /*背景颜色*/  \n"
+"    background-color:rgb(44 , 137 , 255);\n"
+"}\n"
+"\n"
+"/*按钮按下态*/\n"
+"QPushButton:pressed\n"
+"{\n"
+"    /*背景颜色*/  \n"
+"    background-color:rgb(14 , 135 , 228);\n"
+"    /*左内边距为3像素，让按下时字向右移动3像素*/  \n"
+"    padding-left:3px;\n"
+"    /*上内边距为3像素，让按下时字向下移动3像素*/  \n"
+"    padding-top:3px;\n"
+"    border-color:grey;\n"
+"    border-width:1px;\n"
+"    border-style:solid;\n"
+"}")
         self.PreviousMonth.setText("")
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap(":/icon/Icon/Previous.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.PreviousMonth.setIcon(icon2)
         self.PreviousMonth.setObjectName("PreviousMonth")
         self.gridLayout_3.addWidget(self.PreviousMonth, 0, 0, 1, 1)
+        self.Month = QtWidgets.QLabel(self.frame)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.Month.setFont(font)
+        self.Month.setText("")
+        self.Month.setAlignment(QtCore.Qt.AlignCenter)
+        self.Month.setObjectName("Month")
+        self.gridLayout_3.addWidget(self.Month, 0, 1, 1, 1)
         self.gridLayout_5.addWidget(self.frame, 0, 0, 1, 1)
         self.frame_2 = QtWidgets.QFrame(self.centralwidget)
         self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -114,7 +181,18 @@ class Ui_MainWindow(object):
         self.tableWidget.setSizePolicy(sizePolicy)
         self.tableWidget.setMinimumSize(QtCore.QSize(600, 600))
         self.tableWidget.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.tableWidget.setStyleSheet("")
+        self.tableWidget.setStyleSheet("\n"
+"QTableWidget                \n"
+"{\n"
+"    background:#FFFFFF;            // 整个表格控件 背景色\n"
+"    border:none;                   // 整个表格控件 边框\n"
+" \n"
+"    font-size:12px;                // 所有字体大小\n"
+"    font-family:\"Microsoft YaHei\"; // 所有字体 family\n"
+"    color:#666666;                 // 所有字体颜色\n"
+"}\n"
+"\n"
+"")
         self.tableWidget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.tableWidget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.tableWidget.setAutoScroll(True)
@@ -128,6 +206,7 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         item.setFont(font)
+        item.setBackground(QtGui.QColor(170, 255, 255))
         self.tableWidget.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
         font = QtGui.QFont()
@@ -171,31 +250,121 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.frame_3.sizePolicy().hasHeightForWidth())
         self.frame_3.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setBold(True)
+        font.setWeight(75)
+        self.frame_3.setFont(font)
+        self.frame_3.setStyleSheet("QPushButton\n"
+"{\n"
+"    /*字体为微软雅黑*/\n"
+"    font-family:Microsoft Yahei;\n"
+"    /*字体大小为20点*/\n"
+"    font-size:10pt;\n"
+"    /*字体颜色为白色*/    \n"
+"    color:white;\n"
+"    /*背景颜色*/  \n"
+"    \n"
+"    background-color: rgb(230, 151, 68);\n"
+"    /*边框圆角半径为8像素*/ \n"
+"    border-radius:8px;\n"
+"    border-color:grey;\n"
+"    border-width:1px;\n"
+"    border-style:solid;\n"
+"}\n"
+"\n"
+"/*按钮停留态*/\n"
+"QPushButton:hover\n"
+"{\n"
+"    /*背景颜色*/  \n"
+"    \n"
+"    background-color: rgb(255, 144, 47);\n"
+"}\n"
+"\n"
+"/*按钮按下态*/\n"
+"QPushButton:pressed\n"
+"{\n"
+"    /*背景颜色*/  \n"
+"    \n"
+"    \n"
+"    background-color: rgb(255, 123, 7);\n"
+"    /*左内边距为3像素，让按下时字向右移动3像素*/  \n"
+"    padding-left:3px;\n"
+"    /*上内边距为3像素，让按下时字向下移动3像素*/  \n"
+"    padding-top:3px;\n"
+"    border-color:black;\n"
+"    border-width:1px;\n"
+"    border-style:solid;\n"
+"}")
         self.frame_3.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_3.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_3.setObjectName("frame_3")
         self.gridLayout_4 = QtWidgets.QGridLayout(self.frame_3)
         self.gridLayout_4.setObjectName("gridLayout_4")
-        self.addRow = QtWidgets.QPushButton(self.frame_3)
-        icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap(":/icon/Icon/Add.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.addRow.setIcon(icon3)
-        self.addRow.setObjectName("addRow")
-        self.gridLayout_4.addWidget(self.addRow, 0, 0, 1, 1)
         self.delRow = QtWidgets.QPushButton(self.frame_3)
-        icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap(":/icon/Icon/Remove.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.delRow.setIcon(icon4)
+        font = QtGui.QFont()
+        font.setFamily("Microsoft Yahei")
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.delRow.setFont(font)
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap(":/icon/Icon/Remove.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.delRow.setIcon(icon3)
         self.delRow.setObjectName("delRow")
         self.gridLayout_4.addWidget(self.delRow, 0, 1, 1, 1)
-        self.exit = QtWidgets.QPushButton(self.frame_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.exit.sizePolicy().hasHeightForWidth())
-        self.exit.setSizePolicy(sizePolicy)
-        self.exit.setObjectName("exit")
-        self.gridLayout_4.addWidget(self.exit, 0, 2, 1, 1)
+        self.addRow = QtWidgets.QPushButton(self.frame_3)
+        font = QtGui.QFont()
+        font.setFamily("Microsoft Yahei")
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.addRow.setFont(font)
+        self.addRow.setStyleSheet("QPushButton\n"
+"{\n"
+"    /*字体为微软雅黑*/\n"
+"    font-family:Microsoft Yahei;\n"
+"    /*字体大小为20点*/\n"
+"    font-size:10pt;\n"
+"    /*字体颜色为白色*/    \n"
+"    color:white;\n"
+"    /*背景颜色*/  \n"
+"    \n"
+"    background-color: rgb(230, 151, 68);\n"
+"    /*边框圆角半径为8像素*/ \n"
+"    border-radius:8px;\n"
+"    border-color:grey;\n"
+"    border-width:1px;\n"
+"    border-style:solid;\n"
+"}\n"
+"\n"
+"/*按钮停留态*/\n"
+"QPushButton:hover\n"
+"{\n"
+"    /*背景颜色*/  \n"
+"    \n"
+"    background-color: rgb(255, 144, 47);\n"
+"}\n"
+"\n"
+"/*按钮按下态*/\n"
+"QPushButton:pressed\n"
+"{\n"
+"    /*背景颜色*/  \n"
+"    \n"
+"    \n"
+"    background-color: rgb(255, 123, 7);\n"
+"    /*左内边距为3像素，让按下时字向右移动3像素*/  \n"
+"    padding-left:3px;\n"
+"    /*上内边距为3像素，让按下时字向下移动3像素*/  \n"
+"    padding-top:3px;\n"
+"    border-color:black;\n"
+"    border-width:1px;\n"
+"    border-style:solid;\n"
+"}")
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap(":/icon/Icon/Add.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.addRow.setIcon(icon4)
+        self.addRow.setObjectName("addRow")
+        self.gridLayout_4.addWidget(self.addRow, 0, 0, 1, 1)
         self.gridLayout_5.addWidget(self.frame_3, 2, 0, 1, 1)
         self.gridLayout_6.addLayout(self.gridLayout_5, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -266,11 +435,10 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Spend"))
         item = self.tableWidget.horizontalHeaderItem(4)
         item.setText(_translate("MainWindow", "Description"))
-        self.addRow.setToolTip(_translate("MainWindow", "<html><head/><body><p>Add New Record</p></body></html>"))
-        self.addRow.setText(_translate("MainWindow", "Add"))
         self.delRow.setToolTip(_translate("MainWindow", "<html><head/><body><p>Remove Record</p></body></html>"))
         self.delRow.setText(_translate("MainWindow", "Delete"))
-        self.exit.setText(_translate("MainWindow", "Exit"))
+        self.addRow.setToolTip(_translate("MainWindow", "<html><head/><body><p>Add New Record</p></body></html>"))
+        self.addRow.setText(_translate("MainWindow", "Add"))
         self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar"))
         self.OpenNew.setText(_translate("MainWindow", "Open"))
         self.OpenNew.setToolTip(_translate("MainWindow", "Open New "))

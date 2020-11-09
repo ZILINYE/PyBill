@@ -188,11 +188,6 @@ class SqliteCalculate(MakeConnection):
         return total_cost, avagcost, self.allpersonCost,self.cateCost,solutionList
 
 
-
-
-        
-
-
 class Calculator(MongoCalculate,SqliteCalculate):
     def __init__(self, select_period):
         config_data = Conf()

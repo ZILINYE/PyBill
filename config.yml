@@ -6,26 +6,26 @@ ioPaths:
   -
     - "Ui/PyBill.ui"
     - "View/PyBill.py"
-  -
-    - "Ui/Report.ui"
-    - "View/Report.py"
-  -
-    - "Ui/EditDialog.ui"
-    - "View/EditDialog.py"
-  -
-    - "Ui/Debt.ui"
-    - "View/Debt.py"
-  -
-    - "Ui/SucessDisplay.ui"
-    - "View/SucessDisplay.py"
-  -
-    - "Ui/ErrorDisplay.ui"
-    - "View/ErrorDisplay.py"
-  -
-    - "Ui/Create_storage.ui"
-    - "View/Create_storage.py"
+  # -
+  #   - "Ui/Report.ui"
+  #   - "View/Report.py"
+  # -
+  #   - "Ui/EditDialog.ui"
+  #   - "View/EditDialog.py"
+  # -
+  #   - "Ui/Debt.ui"
+  #   - "View/Debt.py"
+  # -
+  #   - "Ui/SucessDisplay.ui"
+  #   - "View/SucessDisplay.py"
+  # -
+  #   - "Ui/ErrorDisplay.ui"
+  #   - "View/ErrorDisplay.py"
+  # -
+  #   - "Ui/Create_storage.ui"
+  #   - "View/Create_storage.py"
 
 
 uic_options: --from-imports
 init_package: False
-force: False
+force: True

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -82,31 +82,6 @@
          <enum>QFrame::Raised</enum>
         </property>
         <layout class="QGridLayout" name="gridLayout_3">
-         <item row="0" column="1">
-          <widget class="QTextBrowser" name="Month">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>400</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <family>Arial</family>
-             <pointsize>12</pointsize>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);</string>
-           </property>
-          </widget>
-         </item>
          <item row="0" column="2">
           <widget class="QPushButton" name="NextMonth">
            <property name="sizePolicy">
@@ -134,7 +109,44 @@
             <enum>Qt::LeftToRight</enum>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(0, 255, 255);</string>
+            <string notr="true">QPushButton
+{
+    /*字体为微软雅黑*/
+    font-family:Microsoft Yahei;
+    /*字体大小为20点*/
+    font-size:20pt;
+    /*字体颜色为白色*/    
+    color:white;
+    /*背景颜色*/  
+    background-color:rgb(14 , 150 , 254);
+    /*边框圆角半径为8像素*/ 
+    border-radius:8px;
+	border-color:black;
+	border-width:1px;
+	border-style:solid;
+
+}
+
+/*按钮停留态*/
+QPushButton:hover
+{
+    /*背景颜色*/  
+    background-color:rgb(44 , 137 , 255);
+}
+
+/*按钮按下态*/
+QPushButton:pressed
+{
+    /*背景颜色*/  
+    background-color:rgb(14 , 135 , 228);
+    /*左内边距为3像素，让按下时字向右移动3像素*/  
+    padding-left:3px;
+    /*上内边距为3像素，让按下时字向下移动3像素*/  
+    padding-top:3px;
+	border-color:grey;
+	border-width:1px;
+	border-style:solid;
+}</string>
            </property>
            <property name="text">
             <string/>
@@ -172,7 +184,43 @@
             <enum>Qt::LeftToRight</enum>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(85, 255, 255);</string>
+            <string notr="true">QPushButton
+{
+    /*字体为微软雅黑*/
+    font-family:Microsoft Yahei;
+    /*字体大小为20点*/
+    font-size:20pt;
+    /*字体颜色为白色*/    
+    color:white;
+    /*背景颜色*/  
+    background-color:rgb(14 , 150 , 254);
+    /*边框圆角半径为8像素*/ 
+    border-radius:8px;
+	border-color:black;
+	border-width:1px;
+	border-style:solid;
+}
+
+/*按钮停留态*/
+QPushButton:hover
+{
+    /*背景颜色*/  
+    background-color:rgb(44 , 137 , 255);
+}
+
+/*按钮按下态*/
+QPushButton:pressed
+{
+    /*背景颜色*/  
+    background-color:rgb(14 , 135 , 228);
+    /*左内边距为3像素，让按下时字向右移动3像素*/  
+    padding-left:3px;
+    /*上内边距为3像素，让按下时字向下移动3像素*/  
+    padding-top:3px;
+	border-color:grey;
+	border-width:1px;
+	border-style:solid;
+}</string>
            </property>
            <property name="text">
             <string/>
@@ -180,6 +228,21 @@
            <property name="icon">
             <iconset resource="../Resource/Icon.qrc">
              <normaloff>:/icon/Icon/Previous.png</normaloff>:/icon/Icon/Previous.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="Month">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
            </property>
           </widget>
          </item>
@@ -198,7 +261,7 @@
          <item row="0" column="0">
           <widget class="QTableWidget" name="tableWidget">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -213,7 +276,18 @@
             <enum>Qt::LeftToRight</enum>
            </property>
            <property name="styleSheet">
-            <string notr="true"/>
+            <string notr="true">
+QTableWidget                
+{
+    background:#FFFFFF;            // 整个表格控件 背景色
+    border:none;                   // 整个表格控件 边框
+ 
+    font-size:12px;                // 所有字体大小
+    font-family:&quot;Microsoft YaHei&quot;; // 所有字体 family
+    color:#666666;                 // 所有字体颜色
+}
+
+</string>
            </property>
            <property name="horizontalScrollBarPolicy">
             <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -276,6 +350,13 @@
               <bold>true</bold>
              </font>
             </property>
+            <property name="background">
+             <color>
+              <red>170</red>
+              <green>255</green>
+              <blue>255</blue>
+             </color>
+            </property>
            </column>
            <column>
             <property name="text">
@@ -334,6 +415,55 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton
+{
+    /*字体为微软雅黑*/
+    font-family:Microsoft Yahei;
+    /*字体大小为20点*/
+    font-size:10pt;
+    /*字体颜色为白色*/    
+	color:white;
+    /*背景颜色*/  
+    
+	background-color: rgb(230, 151, 68);
+    /*边框圆角半径为8像素*/ 
+    border-radius:8px;
+	border-color:grey;
+	border-width:1px;
+	border-style:solid;
+}
+
+/*按钮停留态*/
+QPushButton:hover
+{
+    /*背景颜色*/  
+    
+	background-color: rgb(255, 144, 47);
+}
+
+/*按钮按下态*/
+QPushButton:pressed
+{
+    /*背景颜色*/  
+    
+	
+	background-color: rgb(255, 123, 7);
+    /*左内边距为3像素，让按下时字向右移动3像素*/  
+    padding-left:3px;
+    /*上内边距为3像素，让按下时字向下移动3像素*/  
+    padding-top:3px;
+	border-color:black;
+	border-width:1px;
+	border-style:solid;
+}</string>
+        </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
@@ -341,22 +471,16 @@
          <enum>QFrame::Raised</enum>
         </property>
         <layout class="QGridLayout" name="gridLayout_4">
-         <item row="0" column="0">
-          <widget class="QPushButton" name="addRow">
-           <property name="toolTip">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Add New Record&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-           <property name="text">
-            <string>Add</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../Resource/Icon.qrc">
-             <normaloff>:/icon/Icon/Add.png</normaloff>:/icon/Icon/Add.png</iconset>
-           </property>
-          </widget>
-         </item>
          <item row="0" column="1">
           <widget class="QPushButton" name="delRow">
+           <property name="font">
+            <font>
+             <family>Microsoft Yahei</family>
+             <pointsize>10</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
            <property name="toolTip">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Remove Record&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
@@ -369,16 +493,68 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="2">
-          <widget class="QPushButton" name="exit">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
+         <item row="0" column="0">
+          <widget class="QPushButton" name="addRow">
+           <property name="font">
+            <font>
+             <family>Microsoft Yahei</family>
+             <pointsize>10</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Add New Record&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton
+{
+    /*字体为微软雅黑*/
+    font-family:Microsoft Yahei;
+    /*字体大小为20点*/
+    font-size:10pt;
+    /*字体颜色为白色*/    
+	color:white;
+    /*背景颜色*/  
+    
+	background-color: rgb(230, 151, 68);
+    /*边框圆角半径为8像素*/ 
+    border-radius:8px;
+	border-color:grey;
+	border-width:1px;
+	border-style:solid;
+}
+
+/*按钮停留态*/
+QPushButton:hover
+{
+    /*背景颜色*/  
+    
+	background-color: rgb(255, 144, 47);
+}
+
+/*按钮按下态*/
+QPushButton:pressed
+{
+    /*背景颜色*/  
+    
+	
+	background-color: rgb(255, 123, 7);
+    /*左内边距为3像素，让按下时字向右移动3像素*/  
+    padding-left:3px;
+    /*上内边距为3像素，让按下时字向下移动3像素*/  
+    padding-top:3px;
+	border-color:black;
+	border-width:1px;
+	border-style:solid;
+}</string>
            </property>
            <property name="text">
-            <string>Exit</string>
+            <string>Add</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../Resource/Icon.qrc">
+             <normaloff>:/icon/Icon/Add.png</normaloff>:/icon/Icon/Add.png</iconset>
            </property>
           </widget>
          </item>

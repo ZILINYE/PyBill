@@ -5,6 +5,7 @@ import json
 import calendar
 import sqlite3
 from pymongo import MongoClient
+import urllib.parse
 from PyQt5.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -14,10 +15,12 @@ from PyQt5.QtWidgets import (
     QInputDialog,
     QDateEdit,
     QDialog,
-    QFileDialog)
-from PyQt5.QtCore import  QDate, Qt, QEvent
+    QFileDialog,
+    QMessageBox,
+    QSplashScreen)
+from PyQt5.QtCore import QDate, Qt, QEvent
 from PyQt5.QtChart import QChart, QChartView, QPieSeries, QPieSlice
-from PyQt5.QtGui import QPainter, QPen
+from PyQt5.QtGui import QPainter, QPen,QPixmap
 from PyQt5 import QtCore
 
 # import UI
@@ -33,6 +36,29 @@ from View.EditDialog import Ui_Dialog
 from datachan import Storage
 from loadconf import Conf
 from calculate import Calculator
+
+# Loading Page 
+class SplashPanel(QSplashScreen):
+    def __init__(self):
+        super(SplashPanel, self).__init__()
+        pixmap = QPixmap(":/icon/Icon/loading.jpg")
+        self.setPixmap(pixmap)
+        self.show()
+        time.sleep(1)
+
+    def mousePressEvent(self, evt):
+        pass
+        # 重写鼠标点击事件，阻止点击后消失
+    def mouseDoubleClickEvent(self, *args, **kwargs):
+        pass
+        # 重写鼠标移动事件，阻止出现卡顿现象
+    def enterEvent(self, *args, **kwargs):
+        pass
+        # 重写鼠标移动事件，阻止出现卡顿现象
+    def mouseMoveEvent(self, *args, **kwargs):
+        pass
+        # 重写鼠标移动事件，阻止出现卡顿现象
+
 
 # Ignore mouse wheel event on ComboBox
 class CustomQCB(QComboBox):
@@ -100,8 +126,7 @@ class EditDialog(QMainWindow, Ui_Dialog):
         data = connection.Selec_DB()
 
         msg = "Sucessfully Saved !"
-        s = SuShow(msg)
-        s.exec_()
+        x = PopupWindows('Success', msg)
 
         self.close()
 
@@ -177,9 +202,8 @@ class EditOweDialog(QMainWindow, Ui_DebtList):
 
         record = Storage('OweRecord', new_list, self.select_period)
         record1 = record.Record_DB()
-        msg = "Sucessfully Saved !"
-        s = SuShow(msg)
-        s.exec_()
+        msg = 'Successfully Saved !'
+        x = PopupWindows('Success', msg)
         self.close()
 
     def GetOwe(self):
@@ -221,8 +245,10 @@ class EditOweDialog(QMainWindow, Ui_DebtList):
                         )
 
                 else:
+                    item = QTableWidgetItem(str(data))
+                    item.setTextAlignment(Qt.AlignCenter)
                     self.tableWidget1.setItem(
-                        row_number, column_number, QTableWidgetItem(str(data))
+                        row_number, column_number, item
                     )
 
     def MongoConnect(self):
@@ -261,7 +287,8 @@ class Report(QMainWindow, Ui_Report):
             cost = list(self.SpendByPerson.values())[i]
             self.table2Widget.setItem(i, 0, QTableWidgetItem(str(name)))
             self.table2Widget.setItem(i, 1, QTableWidgetItem(str(cost)))
-        slist = list(x[0] + ' Should Transfer ' + x[1]+' : '+x[2] for x in self.SolutionList)
+        slist = list(x[0] + ' Should Transfer ' + x[1]+' : '+x[2]
+                     for x in self.SolutionList)
         self.list2Widget.addItems(slist)
 
     def SetChart(self):
@@ -335,7 +362,7 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
         self.OpenNew.triggered.connect(self.Open_New)
 
         # Exit Program
-        self.exit.clicked.connect(self.close)
+        # self.exit.clicked.connect(self.close)
 
     def Open_New(self):
 
@@ -350,8 +377,8 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
             self.__init__()
             self.show()
         else:
-            x = ErrShow('Could not open file or cannot connect to database')
-            x.show()
+            msg = 'Could not open file or cannot connect to database'
+            x = PopupWindows('Critical', msg)
 
     def Add_New(self):
 
@@ -363,8 +390,8 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
             self.__init__()
             self.show()
         else:
-            x = ErrShow('Could not open file or cannot connect to database')
-            x.show()
+            msg = 'Could not open file or cannot connect to database'
+            x = PopupWindows('Critical', msg)
 
     def GetReport(self):
         x = Calculator(self.select_period)
@@ -379,8 +406,6 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
         selectedMonth = self.month[self.month_index]
         selectedYear = str(self.selectedYear)
         self.Month.setText(selectedMonth + " , " + selectedYear)
-        self.Month.setAlignment(QtCore.Qt.AlignCenter)
-        self.Month.setFontWeight(15)
         self.select_period = selectedMonth + "/" + selectedYear
         self.Cal_month()
         self.GetRow()
@@ -476,8 +501,10 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
                         )
 
                 else:
+                    item = QTableWidgetItem(str(data))
+                    item.setTextAlignment(Qt.AlignCenter)
                     self.tableWidget.setItem(
-                        row_number, column_number, QTableWidgetItem(str(data))
+                        row_number, column_number, item
                     )
 
     # Retrive Data from DB
@@ -556,36 +583,24 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
         except ValueError:
 
             msg = "Cost can only be Integer or Float!"
-            errorshow = ErrShow(msg)
-            errorshow.exec_()
+            errorshow = PopupWindows('Critical', msg)
 
         else:
             record = Storage('BillRecord', new_list, self.select_period)
             record1 = record.Record_DB()
             msg = "Sucessfully Saved !"
-            s = SuShow(msg)
-            s.exec_()
+            s = PopupWindows('Success', msg)
 
 
-class ErrShow(QDialog, Ui_ErrorMsg):
-    def __init__(self, ErrMsg):
-
-        super(ErrShow, self).__init__()
-        self.setupUi(self)
-        self.ErrorShow.setText(ErrMsg)
-        self.setWindowTitle('Error')
-        self.ErrorShow.setAlignment(Qt.AlignCenter)
-        self.show()
-
-
-class SuShow(QDialog, Ui_SucessMsg):
-    def __init__(self, SuMsg):
-
-        super(SuShow, self).__init__()
-        self.setupUi(self)
-        self.SucessShow.setText(SuMsg)
-        self.setWindowTitle('Sucess')
-        self.show()
+class PopupWindows(QMessageBox):
+    def __init__(self, msgtype, Msg):
+        wdw = QMessageBox()
+        wdw.setWindowTitle('Notification')
+        wdw.setText(Msg)
+        icon_dic = {'Success': QMessageBox.NoIcon, 'Critical': QMessageBox.Critical
+                    }
+        wdw.setIcon(icon_dic[msgtype])
+        x = wdw.exec_()
 
 
 class NewStorage(QDialog, Ui_NewStorage):
@@ -675,6 +690,7 @@ class NewStorage(QDialog, Ui_NewStorage):
             mongo_uname = self.mongo_username.text()
             mongo_pass = self.mongo_password.text()
             mongo_dbname = self.mongo_dbname.text()
+            mongo_port = self.mongo_port.text()
             checklist = [mongo_ip, mongo_dbname]
             boxlist = [self.Mongo_err0, self.Mongo_err1]
             b = 0
@@ -697,7 +713,8 @@ class NewStorage(QDialog, Ui_NewStorage):
                 "DBName": mongo_dbname,
                 "ServerIP": mongo_ip,
                 "Username": mongo_uname,
-                "Password": mongo_pass
+                "Password": mongo_pass,
+                "Port": mongo_port
             }
             saveconfig = Conf(data)
             result = saveconfig.Save_config()
@@ -724,15 +741,22 @@ class NewStorage(QDialog, Ui_NewStorage):
 
 
 class TryConnect:
-    def __init__(self, DBname, fname_ip, username=None, password=None):
+    def __init__(self, DBname, fname_ip, username=None, password=None, port=None):
         self.dbname = DBname
         self.fnameorip = fname_ip
         self.username = username
         self.password = password
+        self.port = port
 
     def connect_mongo(self):
+        if self.port == '':
+            self.port = '27017'
         try:
-            mongo_client = MongoClient(self.fnameorip, 27017)
+            if self.username is not None:
+                mongo_client = MongoClient(self.fnameorip, int(self.port))
+            else:
+                mongo_client = MongoClient(
+                    'mongodb://%s:%s@%s:%s' % (self.username, self.password, self.fnameorip, self.port))
             dbnames = mongo_client.database_names()
             if self.dbname in dbnames:
                 return True
@@ -743,7 +767,6 @@ class TryConnect:
 
     def connect_sqlite(self):
         try:
-
             sqlite3.connect(self.fnameorip)
             return True
         except:
@@ -751,7 +774,7 @@ class TryConnect:
 
 
 def main():
-    
+
     app = QApplication(sys.argv)
     i = 1
     while i == 1:
@@ -766,7 +789,7 @@ def main():
             try:
                 # Get Sqlite configuration
                 if storageT == "sqlite":
-                    # Test Connection 
+                    # Test Connection
                     testconnect = TryConnect('', data['sqlite']['FileName'])
                     result = testconnect.connect_sqlite()
                     # If Connection Sucessful
@@ -774,30 +797,35 @@ def main():
                         # Go to Main Page
                         myWin = MyMainForm()
                         myWin.show()
-                        i = 0
+
                     else:
-                        x = ErrShow(
-                            'Something wrong with the open sqlite Database File')
-                        x.exec_()
+                        msg = 'Something wrong with the open sqlite Database File'
+                        x = PopupWindows('Critical', msg)
+                    i = 0
                 # Get Mongo Configuration
                 elif storageT == "mongo":
-                    # Test Connection 
+                    # Test Connection
                     testconnect = TryConnect(data['mongo']['DBName'], data['mongo']
-                                             ['ServerIP'], data['mongo']['Username'], data['mongo']['Password'])
+                                             ['ServerIP'], data['mongo']['Username'], data['mongo']['Password'], data['mongo']['Port'])
                     result = testconnect.connect_mongo()
                     if result:
+                        splash = SplashPanel()
+                        app.processEvents()
                         myWin = MyMainForm()
                         myWin.show()
-                        i = 0
+                        splash.finish(myWin)
+                        splash.deleteLater()
+
                     else:
-                        x = ErrShow(
-                            'Something wrong with the mongo connection')
-                        x.exec_()
+                        msg = 'Something wrong with the mongo connection'
+                        x = PopupWindows('Critical', msg)
+                    i = 0
                 # If Storage type is None by accident
                 else:
                     # Show EArror
-                    x = ErrShow('configuration FIle Wrong')
-                    x.exec_()
+                    msg = 'configuration FIle Wrong'
+                    x = PopupWindows('Critical', msg)
+
                     # display create storage page
                     newstorage = NewStorage()
                     newstorage.show()
@@ -805,16 +833,22 @@ def main():
             # If configuration file Not valid
             except Exception as e:
                 err = str(e)
-                x = ErrShow(err)
-                x.show()
+                x = PopupWindows('Critical', err)
+                splash = SplashPanel()
+                app.processEvents()
                 newstorage = NewStorage()
                 newstorage.show()
+                splash.finish(myWin)
+                splash.deleteLater()
                 i = newstorage.exec_()
         # If Configuration file not exist
         else:
-
+            splash = SplashPanel()
+            app.processEvents()
             newstorage = NewStorage()
             newstorage.show()
+            splash.finish(myWin)
+            splash.deleteLater()
             i = newstorage.exec_()
 
     sys.exit(app.exec_())

@@ -18,9 +18,6 @@ class Conf:
         except:
             pass
 
-
-
-    
     def Save_config(self) -> bool:
         result = False
         try:
@@ -31,3 +28,5 @@ class Conf:
             pass
             
         return result
+ 
+   
