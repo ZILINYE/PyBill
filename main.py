@@ -752,14 +752,19 @@ class TryConnect:
         if self.port == "":
             self.port = "27017"
         try:
-            if self.username is not None:
+            if len(self.username) == 0:
+         
                 mongo_client = MongoClient(self.fnameorip, int(self.port))
+                
             else:
                 mongo_client = MongoClient(
                     "mongodb://%s:%s@%s:%s"
                     % (self.username, self.password, self.fnameorip, self.port)
                 )
+
             dbnames = mongo_client.database_names()
+            
+         
             if self.dbname in dbnames:
                 return True
             else:
@@ -779,6 +784,7 @@ def main():
 
     app = QApplication(sys.argv)
     i = 1
+
     while i == 1:
         # Check If Configuraion file exist
         confdata = Conf()
@@ -806,6 +812,7 @@ def main():
                     i = 0
                 # Get Mongo Configuration
                 elif storageT == "mongo":
+
                     # Test Connection
                     testconnect = TryConnect(
                         data["mongo"]["DBName"],
@@ -816,6 +823,7 @@ def main():
                     )
                     result = testconnect.connect_mongo()
                     if result:
+
                         splash = SplashPanel()
                         app.processEvents()
                         myWin = MyMainForm()
