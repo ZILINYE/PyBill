@@ -4,13 +4,18 @@ from datachan import MakeConnection
 
 
 def CostSolution(owedata,allpersonCost,personlist):
-
+    # ! owedata : [{}] [{'Name':'A','Cate': 'B','Spend': 200}]
+    # ! allpersonCost : dict {'Tobin': 659.0, 'Iris': 432.0, 'Long': 0}
+    # ! personlist : list ['Tobin', 'Iris', 'Long']
+    # ! total cost : float 1091.0
+    # ! avagcost : float 363.67
     solutionList = []
     borrow = {}
     owe = {}
     total_cost = 0
     avagcost = 0
-  
+    
+    print(allpersonCost)
     for item in owedata:
         try: 
             solutionList.append(
@@ -66,8 +71,6 @@ def CostSolution(owedata,allpersonCost,personlist):
             if solutionList[i][0] == solutionList[y][0] and solutionList[i][1] == solutionList[y][1]:
                 total = float(
                     solutionList[i][2])+float(solutionList[y][2])
-                owe = solutionList[i][0]
-                borrow = solutionList[i][1]
 
                 solutionList[i][2] = str(total)
                 del solutionList[y]
@@ -77,8 +80,8 @@ def CostSolution(owedata,allpersonCost,personlist):
                 if new > 0:
                     solutionList[i][2] = str(new)
                 elif new < 0:
-                    solutionList[i][0] = solutionList[y][1]
-                    solutionList[i][1] = solutionList[y][0]
+                    solutionList[i][0] = solutionList[y][0]
+                    solutionList[i][1] = solutionList[y][1]
                     solutionList[i][2] = str(-new)
                 else:
                     del solutionList[i]
